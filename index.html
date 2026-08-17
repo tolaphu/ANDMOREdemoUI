@@ -1,0 +1,4503 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <title></title>
+
+  <!-- TODO: Chuyển toàn bộ font sang self-host, subset theo locale và preload font body trước khi giao bản chính thức. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <script>
+    (() => {
+      const localeFontUrls = {
+        vi: "https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap",
+        ja: "https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=IBM+Plex+Mono:wght@500;600&family=Zen+Kaku+Gothic+New:wght@700;900&display=swap"
+      };
+      let initialLocale = "vi";
+      try {
+        initialLocale = sessionStorage.getItem("andmore-locale") || "vi";
+      } catch (error) {}
+      if (!Object.hasOwn(localeFontUrls, initialLocale)) initialLocale = "vi";
+      document.documentElement.lang = initialLocale;
+      const fontLink = document.createElement("link");
+      fontLink.id = "locale-fonts";
+      fontLink.rel = "stylesheet";
+      fontLink.href = localeFontUrls[initialLocale];
+      document.head.append(fontLink);
+    })();
+  </script>
+
+  <script>
+    const i18n = {
+      vi: {
+        common: {
+          brand: "ANDMORE",
+          pageTitle: "ANDMORE Recruit",
+          pageDescription: "ANDMORE tuyển dụng trực tiếp nhân sự Việt Nam sang Nhật Bản.",
+          skipToContent: "Chuyển đến nội dung chính",
+          languageLabel: "Chọn ngôn ngữ",
+          languageVi: "Tiếng Việt",
+          languageJa: "日本語"
+        },
+        header: { call: "Gọi tư vấn", sitemapLabel: "Điều hướng chính", jobs: "Việc làm", conditions: "Điều kiện", income: "Thu nhập", process: "Quy trình", information: "Thông tin", costs: "Chi phí", company: "ANDMORE", faq: "Câu hỏi thường gặp", apply: "Ứng tuyển" },
+        hero: {
+          eyebrow: "KỸ NĂNG ĐẶC ĐỊNH SỐ 1 · VẬN TẢI Ô TÔ (XE TẢI)",
+          title: "Lái xe tải tại Nhật Bản. Điều kiện, chi phí, thời gian, nói trước tất cả.",
+          subtitle: "Tuyển trực tiếp bởi ANDMORE Co., Ltd. (Nhật Bản). Không qua công ty môi giới.",
+          primaryAction: "Kiểm tra điều kiện của bạn · 1 phút",
+          secondaryAction: "Xem các đơn hiện có",
+          imageCaption: "Ảnh minh họa"
+        },
+        trust: {
+          label: "Tín hiệu tin cậy",
+          direct: "Tuyển trực tiếp, không qua công ty môi giới",
+          costs: "Từng khoản chi phí đều công khai",
+          status: "Tra cứu trạng thái hồ sơ bất cứ lúc nào"
+        }
+      },
+      ja: {
+        common: {
+          brand: "ANDMORE",
+          pageTitle: "ANDMORE Recruit",
+          pageDescription: "ANDMORE株式会社によるベトナム人材の直接採用情報です。",
+          skipToContent: "メインコンテンツへ移動",
+          languageLabel: "言語を選択",
+          languageVi: "Tiếng Việt",
+          languageJa: "日本語"
+        },
+        header: { call: "電話で相談", sitemapLabel: "メインナビゲーション", jobs: "求人情報", conditions: "応募条件", income: "給与", process: "選考の流れ", information: "ご案内", costs: "費用", company: "ANDMOREについて", faq: "よくある質問", apply: "応募する" },
+        hero: {
+          eyebrow: "特定技能1号｜自動車運送業（トラック区分）",
+          title: "日本でトラックドライバーとして働く。条件・費用・期間を、先にすべて開示します。",
+          subtitle: "日本法人 ANDMORE株式会社による直接採用です。仲介業者を介しません。",
+          primaryAction: "応募資格をチェックする（1分）",
+          secondaryAction: "現在の求人を見る",
+          imageCaption: "※イメージ写真"
+        },
+        trust: {
+          label: "信頼のポイント",
+          direct: "直接採用。仲介業者を介しません。",
+          costs: "費用は項目ごとに全額を公開します。",
+          status: "応募状況はいつでもご確認いただけます。"
+        }
+      }
+    };
+  </script>
+
+  <style>
+    :root {
+      --ink: #101418;
+      --steel: #2E3A43;
+      --road: #F2F4F3;
+      --paper: #FFFFFF;
+      --expressway: #0B6E4F;
+      --hivis: #F0B429;
+      --alert: #B3261E;
+      --line: #D8DEDC;
+    }
+
+    [lang="vi"] {
+      --font-display: "Be Vietnam Pro", system-ui, sans-serif;
+      --font-body: "Be Vietnam Pro", system-ui, "Segoe UI", Roboto, sans-serif;
+      --font-data: "IBM Plex Mono", ui-monospace, monospace;
+    }
+
+    [lang="ja"] {
+      --font-display: "Zen Kaku Gothic New", "BIZ UDPGothic", "Noto Sans JP", sans-serif;
+      --font-body: "BIZ UDPGothic", "Noto Sans JP", "Hiragino Sans", "Yu Gothic", sans-serif;
+      --font-data: "IBM Plex Mono", "BIZ UDPGothic", monospace;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      background: var(--road);
+      color: var(--ink);
+      overflow-anchor: none;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-width: 320px;
+      margin: 0;
+      background: var(--road);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 17px;
+      line-height: 1.65;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+    }
+
+    html[lang="ja"] body {
+      line-height: 1.8;
+      line-break: strict;
+      word-break: normal;
+      overflow-wrap: normal;
+      font-feature-settings: "palt" 0;
+      font-kerning: normal;
+    }
+
+    p,
+    li,
+    dd,
+    figcaption {
+      text-wrap: pretty;
+    }
+
+    h1,
+    h2,
+    h3,
+    legend,
+    summary {
+      text-wrap: balance;
+    }
+
+    .nobr {
+      white-space: nowrap;
+    }
+
+    button,
+    select,
+    input,
+    textarea {
+      font: inherit;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    a:focus-visible,
+    button:focus-visible,
+    select:focus-visible {
+      outline: 3px solid var(--hivis);
+      outline-offset: 3px;
+    }
+
+    .container {
+      width: min(100% - 48px, 1200px);
+      margin-inline: auto;
+    }
+
+    .skip-link {
+      position: fixed;
+      z-index: 100;
+      top: 8px;
+      left: 8px;
+      padding: 12px 16px;
+      border: 2px solid var(--ink);
+      border-radius: 4px;
+      background: var(--hivis);
+      color: var(--ink);
+      font-weight: 700;
+      transform: translateY(-160%);
+    }
+
+    .skip-link:focus {
+      transform: translateY(0);
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .site-header {
+      position: sticky;
+      z-index: 50;
+      top: 0;
+      height: 64px;
+      border-bottom: 1px solid var(--line);
+      background: var(--paper);
+      transition: box-shadow 160ms ease;
+    }
+
+    .site-header.is-scrolled {
+      box-shadow: 0 4px 16px rgb(16 20 24 / 12%);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 100%;
+      gap: 8px;
+    }
+
+    .brand {
+      color: var(--ink);
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      text-decoration: none;
+    }
+
+    .header-actions,
+    .language-control,
+    .call-link {
+      display: flex;
+      align-items: center;
+    }
+
+    .header-actions {
+      gap: 6px;
+    }
+
+    .head-menu {
+      display: none;
+      align-items: center;
+      gap: 4px;
+      margin-left: auto;
+    }
+
+    .head-menu > a,
+    .menu-disclosure > summary {
+      display: inline-flex;
+      min-height: 48px;
+      align-items: center;
+      gap: 6px;
+      padding-inline: 10px;
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    .head-menu > a:hover,
+    .menu-disclosure > summary:hover {
+      color: var(--expressway);
+    }
+
+    .menu-disclosure {
+      position: relative;
+    }
+
+    .menu-disclosure > summary {
+      list-style: none;
+    }
+
+    .menu-disclosure > summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .menu-disclosure .chevron {
+      width: 16px;
+      height: 16px;
+      transition: transform 160ms ease;
+    }
+
+    .menu-disclosure[open] .chevron {
+      transform: rotate(180deg);
+    }
+
+    .menu-dropdown {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      width: 240px;
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      background: var(--paper);
+      box-shadow: 0 12px 32px rgb(16 20 24 / 14%);
+    }
+
+    .menu-dropdown a {
+      display: flex;
+      min-height: 48px;
+      align-items: center;
+      padding: 10px 12px;
+      border-radius: 2px;
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .menu-dropdown a:hover,
+    .menu-dropdown a:focus-visible {
+      background: var(--road);
+      color: var(--expressway);
+    }
+
+    .language-control {
+      position: relative;
+      min-height: 48px;
+    }
+
+    .language-control .ic {
+      position: absolute;
+      left: 10px;
+      pointer-events: none;
+    }
+
+    .language-control .chevron {
+      right: 10px;
+      left: auto;
+      width: 16px;
+      height: 16px;
+    }
+
+    .language-control .language-select {
+      appearance: none;
+    }
+
+    .language-select {
+      width: 108px;
+      min-height: 48px;
+      padding: 0 26px 0 32px;
+      border: 1px solid transparent;
+      border-radius: 2px;
+      background: var(--paper);
+      color: var(--ink);
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .call-link {
+      min-width: 48px;
+      min-height: 48px;
+      justify-content: center;
+      gap: 8px;
+      border-radius: 4px;
+      background: var(--hivis);
+      color: var(--ink);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .call-link[aria-disabled="true"] {
+      cursor: not-allowed;
+    }
+
+    .call-label {
+      display: none;
+    }
+
+    .ic {
+      width: 20px;
+      height: 20px;
+      flex: 0 0 auto;
+      color: currentColor;
+      stroke-width: 1.75;
+    }
+
+    ::selection {
+      background: var(--hivis);
+      color: var(--ink);
+    }
+
+    * {
+      scrollbar-color: var(--steel) var(--road);
+    }
+
+    main {
+      min-height: 48px;
+    }
+
+    .hero {
+      padding-block: 48px;
+      background: var(--road);
+    }
+
+    .hero-grid {
+      display: grid;
+      gap: 32px;
+    }
+
+    .hero-copy {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .eyebrow {
+      margin: 0 0 16px;
+      color: var(--expressway);
+      font-family: var(--font-data);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      line-height: 1.4;
+      text-transform: uppercase;
+    }
+
+    .hero-title {
+      max-width: 18ch;
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--font-display);
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      text-wrap: balance;
+    }
+
+    html[lang="ja"] .hero-title {
+      max-width: 19ch;
+      letter-spacing: 0;
+      line-height: 1.35;
+    }
+
+    .hero-subtitle {
+      max-width: 52ch;
+      margin: 16px 0 0;
+      color: var(--steel);
+    }
+
+    .primary-action {
+      display: inline-flex;
+      width: 100%;
+      min-height: 56px;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 24px;
+      padding-inline: 20px;
+      border-radius: 4px;
+      background: var(--hivis);
+      color: var(--ink);
+      font-weight: 700;
+      text-align: center;
+      text-decoration: none;
+      transition: transform 120ms ease;
+    }
+
+    .primary-action:active {
+      transform: scale(0.98);
+    }
+
+    .secondary-action {
+      display: inline-flex;
+      min-height: 48px;
+      align-items: center;
+      margin-top: 8px;
+      color: var(--ink);
+      font-weight: 600;
+      text-underline-offset: 4px;
+    }
+
+    .hero-media {
+      margin: 0;
+    }
+
+    .hero-image-frame {
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      border: 1px solid var(--steel);
+      border-radius: 4px;
+      background: var(--steel);
+    }
+
+    .hero-image {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .workplace-media {
+      margin: 40px 0 0;
+    }
+
+    .workplace-media img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 3 / 2;
+      border-radius: 4px;
+      object-fit: cover;
+      object-position: center 58%;
+    }
+
+    .hero-image-frame.is-missing .hero-image {
+      visibility: hidden;
+    }
+
+    .image-caption {
+      margin-top: 8px;
+      color: var(--steel);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .trust-strip {
+      border-block: 1px solid var(--line);
+      background: var(--paper);
+    }
+
+    .trust-list {
+      display: grid;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .trust-item {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      min-height: 80px;
+      align-items: center;
+      gap: 12px;
+      padding-block: 16px;
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .trust-item + .trust-item {
+      border-top: 1px solid var(--line);
+    }
+
+    .trust-item .ic {
+      color: var(--expressway);
+    }
+
+    .eligibility {
+      padding-block: 48px;
+      border-bottom: 2px solid var(--steel);
+      background: var(--road);
+    }
+
+    .section-marker {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 0 0 16px;
+      color: var(--expressway);
+      font-family: var(--font-data);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      line-height: 1.4;
+      text-transform: uppercase;
+    }
+
+    .section-marker::after {
+      height: 1px;
+      flex: 1;
+      background: var(--line);
+      content: "";
+    }
+
+    .section-title {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+    }
+
+    .section-subtitle {
+      margin: 12px 0 0;
+      color: var(--steel);
+    }
+
+    html[lang="ja"] .section-title,
+    html[lang="ja"] .form-step-title,
+    html[lang="ja"] .story-quote p,
+    html[lang="ja"] .fraud-warning h2 {
+      letter-spacing: 0;
+      line-height: 1.5;
+    }
+
+    .inspection-sheet {
+      margin-top: 32px;
+      border: 2px solid var(--steel);
+      border-radius: 0;
+      background: var(--paper);
+    }
+
+    .inspection-row {
+      display: grid;
+      grid-template-columns: 40px minmax(0, 1fr);
+      gap: 12px;
+      padding: 20px 16px;
+      border: 0;
+      border-radius: 0;
+      margin: 0;
+      min-inline-size: 0;
+    }
+
+    .inspection-row + .inspection-row {
+      border-top: 1px solid var(--line);
+    }
+
+    .inspection-number {
+      padding-top: 2px;
+      color: var(--expressway);
+      font-family: var(--font-data);
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.5;
+    }
+
+    .inspection-content {
+      min-width: 0;
+    }
+
+    .inspection-question {
+      padding: 0;
+      color: var(--ink);
+      font-weight: 700;
+    }
+
+    .radio-options {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .radio-option {
+      display: flex;
+      min-height: 48px;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      cursor: pointer;
+    }
+
+    .radio-option:has(input:checked) {
+      border-color: var(--expressway);
+      background: var(--road);
+    }
+
+    .radio-option input {
+      width: 20px;
+      height: 20px;
+      flex: 0 0 auto;
+      margin: 0;
+      accent-color: var(--expressway);
+    }
+
+    .eligibility-progress {
+      margin: 16px 0 0;
+      color: var(--steel);
+      font-family: var(--font-data);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .eligibility-result {
+      display: grid;
+      grid-template-columns: 112px minmax(0, 1fr);
+      align-items: center;
+      gap: 24px;
+      margin-top: 24px;
+      padding: 24px;
+      border: 2px solid var(--steel);
+      border-radius: 4px;
+      background: var(--paper);
+    }
+
+    .eligibility-result[hidden] {
+      display: none;
+    }
+
+    .hanko {
+      display: grid;
+      width: 104px;
+      height: 104px;
+      place-items: center;
+      border: 3px solid var(--stamp-color, var(--expressway));
+      border-radius: 50%;
+      color: var(--stamp-color, var(--expressway));
+      font-family: "BIZ UDPGothic", "Noto Sans JP", sans-serif;
+      font-size: 23px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      line-height: 1;
+      text-align: center;
+      transform: rotate(3deg);
+      animation: hanko-stamp 260ms cubic-bezier(.34, 1.56, .64, 1);
+    }
+
+    .eligibility-result[data-status="eligible"] {
+      --stamp-color: var(--expressway);
+    }
+
+    .eligibility-result[data-status="needs-review"] {
+      --stamp-color: var(--hivis);
+    }
+
+    .eligibility-result[data-status="consultation"] {
+      --stamp-color: var(--steel);
+    }
+
+    .result-heading {
+      margin: 0 0 8px;
+      color: var(--stamp-color);
+      font-family: var(--font-display);
+      font-size: 21px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .result-message {
+      margin: 0;
+      color: var(--steel);
+    }
+
+    @keyframes hanko-stamp {
+      from {
+        opacity: 0;
+        transform: scale(1.15) rotate(3deg);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1) rotate(3deg);
+      }
+    }
+
+    .content-section {
+      padding-block: 48px;
+      border-bottom: 2px solid var(--steel);
+    }
+
+    .content-section:nth-of-type(even) {
+      background: var(--paper);
+    }
+
+    .inspection-heading {
+      margin-bottom: 24px;
+      padding-block: 8px;
+      border-block: 1px solid var(--line);
+    }
+
+    .inspection-heading .section-marker {
+      margin: 0;
+    }
+
+    .inspection-heading .section-marker::after {
+      display: none;
+    }
+
+    .work-grid,
+    .requirements-grid {
+      display: grid;
+      gap: 24px;
+    }
+
+    .timeline-list,
+    .difficulty-list,
+    .note-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 28px 56px 1fr;
+      align-items: center;
+      gap: 12px;
+      min-height: 64px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .timeline-item .ic {
+      color: var(--expressway);
+    }
+
+    .timeline-time,
+    .money,
+    .data-input {
+      font-family: var(--font-data);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .timeline-time {
+      color: var(--steel);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .truth-panel,
+    .information-panel,
+    .warning-panel,
+    .calculator-panel,
+    .data-panel {
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      background: var(--paper);
+    }
+
+    .truth-panel,
+    .calculator-panel,
+    .data-panel {
+      padding: 24px;
+    }
+
+    .truth-panel {
+      border-color: var(--steel);
+    }
+
+    .panel-title {
+      margin: 0 0 16px;
+      font-family: var(--font-data);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      line-height: 1.4;
+      text-transform: uppercase;
+    }
+
+    .difficulty-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .difficulty-list li {
+      position: relative;
+      padding-left: 20px;
+    }
+
+    .difficulty-list li::before {
+      position: absolute;
+      left: 0;
+      color: var(--expressway);
+      content: "•";
+    }
+
+    .income-layout {
+      display: grid;
+      gap: 24px;
+      margin-top: 32px;
+    }
+
+    .data-table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      background: var(--paper);
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      color: var(--ink);
+    }
+
+    .data-table th,
+    .data-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .data-table th {
+      color: var(--steel);
+      font-family: var(--font-data);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .data-table td:last-child,
+    .data-table th:last-child {
+      text-align: right;
+    }
+
+    .data-table .summary-row td {
+      border-top: 2px solid var(--steel);
+      font-weight: 700;
+    }
+
+    .data-table .net-row td {
+      padding-block: 20px;
+      border-top: 3px double var(--steel);
+      border-bottom: 0;
+      font-family: var(--font-display);
+      font-size: 26px;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .data-table .net-row .money {
+      color: var(--expressway);
+      font-size: 30px;
+    }
+
+    .money {
+      white-space: nowrap;
+    }
+
+    .salary-table.motion-ready .salary-row {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+
+    .salary-table.motion-ready .salary-row.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 240ms ease, transform 240ms ease;
+      transition-delay: var(--row-delay, 0ms);
+    }
+
+    .calculator-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 8px;
+      font-family: var(--font-display);
+      font-size: 21px;
+      line-height: 1.3;
+    }
+
+    .calculator-title .ic {
+      color: var(--expressway);
+    }
+
+    .calculator-description {
+      margin: 0 0 20px;
+      color: var(--steel);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .calculator-fields {
+      display: grid;
+      gap: 16px;
+    }
+
+    .data-field {
+      display: grid;
+      gap: 6px;
+    }
+
+    .data-field label {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .data-input {
+      width: 100%;
+      min-height: 48px;
+      padding: 10px 12px;
+      border: 1px solid var(--steel);
+      border-radius: 2px;
+      background: var(--paper);
+      color: var(--ink);
+      font-size: 16px;
+    }
+
+    .data-input::placeholder {
+      color: var(--steel);
+      opacity: 0.72;
+    }
+
+    .note-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 24px;
+      color: var(--steel);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .note-list li {
+      padding-left: 18px;
+      text-indent: -18px;
+    }
+
+    .cost-layout {
+      display: grid;
+      gap: 24px;
+      margin-top: 32px;
+    }
+
+    .information-panel,
+    .warning-panel {
+      display: grid;
+      grid-template-columns: 24px 1fr;
+      gap: 12px;
+      padding: 20px;
+    }
+
+    .information-panel {
+      border-color: var(--expressway);
+    }
+
+    .information-panel .ic {
+      color: var(--expressway);
+    }
+
+    .warning-panel {
+      border-color: var(--alert);
+    }
+
+    .warning-panel .ic {
+      color: var(--alert);
+    }
+
+    .information-panel + .warning-panel,
+    .requirements-grid + .information-panel {
+      margin-top: 16px;
+    }
+
+    .information-panel p,
+    .warning-panel p {
+      margin: 0;
+    }
+
+    .requirements-grid {
+      margin-top: 32px;
+    }
+
+    .requirements-table td:first-child {
+      width: 64px;
+      color: var(--expressway);
+      font-family: var(--font-data);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .requirements-table td:last-child {
+      text-align: left;
+    }
+
+    .document-copy {
+      margin: 0;
+    }
+
+    .roadmap-list {
+      position: relative;
+      display: grid;
+      gap: 0;
+      margin: 32px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .roadmap-step {
+      position: relative;
+      display: grid;
+      grid-template-columns: 48px minmax(0, 1fr);
+      gap: 16px;
+      padding-bottom: 32px;
+    }
+
+    .roadmap-step:not(:last-child)::before {
+      position: absolute;
+      top: 48px;
+      bottom: 0;
+      left: 23px;
+      width: 1px;
+      background: var(--line);
+      content: "";
+    }
+
+    .roadmap-icon {
+      display: grid;
+      width: 48px;
+      height: 48px;
+      place-items: center;
+      border: 1px solid var(--expressway);
+      border-radius: 50%;
+      background: var(--paper);
+      color: var(--expressway);
+    }
+
+    .roadmap-card {
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .roadmap-number,
+    .roadmap-meta-label {
+      color: var(--expressway);
+      font-family: var(--font-data);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+
+    .roadmap-name {
+      margin: 4px 0 12px;
+      font-family: var(--font-display);
+      font-size: 21px;
+      line-height: 1.3;
+    }
+
+    .roadmap-meta {
+      display: grid;
+      grid-template-columns: minmax(88px, auto) 1fr;
+      gap: 8px 12px;
+      margin: 0;
+    }
+
+    .roadmap-meta dt,
+    .roadmap-meta dd {
+      margin: 0;
+    }
+
+    .step-note {
+      margin-top: 20px;
+      padding: 20px;
+      border: 1px solid var(--line);
+      background: var(--road);
+    }
+
+    .step-note p {
+      margin: 0;
+    }
+
+    .roadmap-total {
+      margin: 0;
+      padding: 20px;
+      border: 1px solid var(--steel);
+      background: var(--paper);
+      font-weight: 700;
+    }
+
+    .benefit-grid,
+    .verification-list {
+      display: grid;
+      gap: 1px;
+      margin: 32px 0 0;
+      padding: 1px;
+      background: var(--line);
+      list-style: none;
+    }
+
+    .benefit-item,
+    .verification-item {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 12px;
+      padding: 20px;
+      background: var(--paper);
+    }
+
+    .benefit-item .ic,
+    .verification-item .ic {
+      color: var(--expressway);
+    }
+
+    .benefit-name {
+      display: block;
+      margin-bottom: 4px;
+      font-weight: 700;
+    }
+
+    .family-note {
+      margin-top: 24px;
+      padding: 24px;
+      border: 2px solid var(--steel);
+      background: var(--paper);
+      font-weight: 700;
+    }
+
+    .family-note p {
+      margin: 0;
+    }
+
+    .company-layout {
+      display: grid;
+      gap: 32px;
+      margin-top: 32px;
+    }
+
+    .company-legal {
+      margin: 0;
+      padding: 20px;
+      border: 1px solid var(--line);
+      background: var(--paper);
+    }
+
+    .verification-list {
+      margin-top: 16px;
+    }
+
+    .verification-number {
+      color: var(--expressway);
+      font-family: var(--font-data);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .map-figure {
+      margin: 0;
+    }
+
+    .map-link {
+      display: block;
+      text-decoration: none;
+    }
+
+    .map-frame {
+      position: relative;
+      aspect-ratio: 3 / 2;
+      overflow: hidden;
+      border: 1px solid var(--steel);
+      background: var(--steel);
+    }
+
+    .map-image {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .map-frame.is-missing .map-image {
+      visibility: hidden;
+    }
+
+    .map-action {
+      display: flex;
+      min-height: 48px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 12px;
+      background: var(--paper);
+      font-weight: 700;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+
+    .demo-story {
+      margin-top: 32px;
+      border: 1px solid var(--steel);
+      background: var(--paper);
+    }
+
+    .story-profile {
+      display: grid;
+      grid-template-columns: 56px minmax(0, 1fr);
+      gap: 14px;
+      align-items: center;
+      padding: 20px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .story-avatar {
+      display: grid;
+      width: 56px;
+      height: 56px;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--expressway);
+      color: var(--paper);
+      font-family: var(--font-data);
+      font-weight: 600;
+    }
+
+    .story-name,
+    .story-meta {
+      margin: 0;
+    }
+
+    .story-name {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .story-meta {
+      margin-top: 2px;
+      color: var(--steel);
+      font-size: 14px;
+    }
+
+    .story-badge {
+      grid-column: 1 / -1;
+      width: fit-content;
+      padding: 6px 10px;
+      border: 1px solid var(--hivis);
+      border-radius: 999px;
+      background: var(--hivis);
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .story-quote {
+      display: grid;
+      grid-template-columns: 28px minmax(0, 1fr);
+      gap: 16px;
+      margin: 0;
+      padding: 28px 20px;
+    }
+
+    .story-quote .ic {
+      color: var(--expressway);
+    }
+
+    .story-quote p {
+      max-width: 62ch;
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: clamp(21px, 3vw, 30px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.45;
+    }
+
+    .story-facts {
+      display: grid;
+      margin: 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .story-facts > div {
+      padding: 16px 20px;
+    }
+
+    .story-facts > div + div {
+      border-top: 1px solid var(--line);
+    }
+
+    .story-facts dt {
+      color: var(--expressway);
+      font-family: var(--font-data);
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .story-facts dd {
+      margin: 6px 0 0;
+      font-weight: 700;
+    }
+
+    .story-disclaimer {
+      display: flex;
+      max-width: 72ch;
+      align-items: flex-start;
+      gap: 10px;
+      margin: 14px 0 0;
+      color: var(--steel);
+      font-size: 13px;
+    }
+
+    .story-disclaimer .ic {
+      width: 16px;
+      height: 16px;
+      margin-top: 3px;
+      color: var(--expressway);
+    }
+
+    .faq-list {
+      margin-top: 32px;
+      border-top: 1px solid var(--line);
+    }
+
+    .faq-item {
+      border-bottom: 1px solid var(--line);
+      background: var(--paper);
+    }
+
+    .faq-question {
+      display: grid;
+      grid-template-columns: 32px 1fr 24px;
+      min-height: 64px;
+      align-items: center;
+      gap: 12px;
+      padding: 16px;
+      cursor: pointer;
+      font-weight: 700;
+      list-style: none;
+    }
+
+    .faq-question::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq-number {
+      color: var(--expressway);
+      font-family: var(--font-data);
+      font-size: 13px;
+    }
+
+    .faq-question .ic {
+      transition: transform 160ms ease;
+    }
+
+    .faq-item[open] .faq-question .ic {
+      transform: rotate(180deg);
+    }
+
+    .faq-answer {
+      max-width: 68ch;
+      padding: 0 16px 20px 60px;
+      color: var(--steel);
+    }
+
+    .faq-answer p {
+      margin: 0;
+    }
+
+    .application-shell {
+      margin-top: 32px;
+      border: 2px solid var(--steel);
+      background: var(--paper);
+    }
+
+    .form-progress {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .form-progress li {
+      padding: 12px 8px;
+      border-bottom: 1px solid var(--line);
+      color: var(--steel);
+      font-family: var(--font-data);
+      font-size: 13px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .form-progress li + li {
+      border-left: 1px solid var(--line);
+    }
+
+    .form-progress li.is-current {
+      border-bottom: 3px solid var(--expressway);
+      color: var(--expressway);
+    }
+
+    .form-panel {
+      padding: 24px;
+    }
+
+    .form-panel[hidden],
+    .application-success[hidden] {
+      display: none;
+    }
+
+    .form-step-title {
+      margin: 0 0 24px;
+      font-family: var(--font-display);
+      font-size: 21px;
+      line-height: 1.3;
+    }
+
+    .form-grid {
+      display: grid;
+      gap: 20px;
+    }
+
+    .form-field,
+    .choice-fieldset {
+      display: grid;
+      gap: 6px;
+      min-width: 0;
+      margin: 0;
+      padding: 0;
+      border: 0;
+    }
+
+    .form-label,
+    .choice-legend {
+      padding: 0;
+      font-weight: 700;
+    }
+
+    .field-example,
+    .field-help {
+      margin: 0;
+      color: var(--steel);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .form-control {
+      width: 100%;
+      min-height: 48px;
+      padding: 10px 12px;
+      border: 1px solid var(--steel);
+      border-radius: 2px;
+      background: var(--paper);
+      color: var(--ink);
+    }
+
+    .form-control[aria-invalid="true"] {
+      border-color: var(--alert);
+    }
+
+    .field-error {
+      min-height: 20px;
+      margin: 0;
+      color: var(--alert);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .choice-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .choice-card {
+      display: flex;
+      min-height: 48px;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      cursor: pointer;
+    }
+
+    .choice-card:has(input:checked) {
+      border-color: var(--expressway);
+      background: var(--road);
+    }
+
+    .choice-card input,
+    .consent-row input {
+      width: 20px;
+      height: 20px;
+      flex: 0 0 auto;
+      accent-color: var(--expressway);
+    }
+
+    .choice-card .ic {
+      color: var(--expressway);
+    }
+
+    .form-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .form-button {
+      display: inline-flex;
+      min-height: 48px;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border: 1px solid var(--steel);
+      border-radius: 4px;
+      background: var(--paper);
+      color: var(--ink);
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .form-button.primary {
+      min-height: 56px;
+      border-color: var(--hivis);
+      background: var(--hivis);
+    }
+
+    .form-button:disabled {
+      cursor: wait;
+      opacity: 0.7;
+    }
+
+    .skip-documents-note {
+      margin: 0 0 24px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      background: var(--road);
+    }
+
+    .document-upload-list {
+      display: grid;
+      gap: 16px;
+    }
+
+    .upload-card {
+      padding: 16px;
+      border: 1px solid var(--line);
+    }
+
+    .upload-card-title {
+      margin: 0 0 4px;
+      font-weight: 700;
+    }
+
+    .upload-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .file-input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+    }
+
+    .file-list {
+      display: grid;
+      gap: 8px;
+      margin: 12px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .file-item {
+      display: grid;
+      grid-template-columns: 48px minmax(0, 1fr) 48px;
+      align-items: center;
+      gap: 10px;
+      padding: 8px;
+      background: var(--road);
+    }
+
+    .file-preview {
+      display: grid;
+      width: 48px;
+      height: 48px;
+      place-items: center;
+      overflow: hidden;
+      background: var(--steel);
+      color: var(--paper);
+    }
+
+    .file-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .file-name {
+      overflow: hidden;
+      font-size: 13px;
+      font-weight: 600;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .file-size {
+      color: var(--steel);
+      font-family: var(--font-data);
+      font-size: 13px;
+    }
+
+    .file-progress {
+      width: 100%;
+      height: 4px;
+      border: 0;
+      accent-color: var(--expressway);
+    }
+
+    .icon-button {
+      display: grid;
+      width: 48px;
+      height: 48px;
+      place-items: center;
+      border: 1px solid var(--line);
+      background: var(--paper);
+      color: var(--alert);
+      cursor: pointer;
+    }
+
+    .consent-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .consent-row {
+      display: flex;
+      min-height: 48px;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px;
+      border: 1px solid var(--line);
+    }
+
+    .retention-note {
+      margin: 16px 0 24px;
+      color: var(--steel);
+    }
+
+    .schedule-panel {
+      padding: 20px;
+      border: 1px solid var(--line);
+      background: var(--road);
+    }
+
+    .schedule-panel h3 {
+      margin: 0 0 16px;
+      font-family: var(--font-display);
+      font-size: 21px;
+    }
+
+    .dual-time {
+      margin: 12px 0 0;
+      font-family: var(--font-data);
+      font-size: 15px;
+    }
+
+    .application-success {
+      padding: 32px 24px;
+      text-align: center;
+    }
+
+    .receipt-label {
+      margin: 24px 0 8px;
+      color: var(--steel);
+    }
+
+    .receipt-code {
+      margin: 0;
+      color: var(--expressway);
+      font-family: var(--font-data);
+      font-size: clamp(28px, 7vw, 48px);
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+      overflow-wrap: anywhere;
+    }
+
+    .success-next {
+      max-width: 58ch;
+      margin: 24px auto;
+      color: var(--steel);
+    }
+
+    .sticky-actions {
+      position: fixed;
+      z-index: 45;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) 56px 56px;
+      min-height: 64px;
+      gap: 4px;
+      padding: 6px 12px calc(6px + env(safe-area-inset-bottom));
+      border-top: 2px solid var(--steel);
+      background: var(--paper);
+      transform: translateY(110%);
+      transition: transform 160ms ease;
+    }
+
+    .sticky-actions.is-visible {
+      transform: translateY(0);
+    }
+
+    .sticky-main,
+    .sticky-secondary {
+      display: flex;
+      min-height: 48px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 700;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .sticky-main {
+      background: var(--hivis);
+    }
+
+    .sticky-secondary {
+      flex-direction: column;
+      border: 1px solid var(--line);
+      background: var(--paper);
+    }
+
+    .loader-icon {
+      animation: loader-spin 800ms linear infinite;
+    }
+
+    @keyframes loader-spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .site-footer {
+      border-top: 2px solid var(--steel);
+      background: var(--ink);
+      color: var(--road);
+    }
+
+    .footer-inner {
+      padding-block: 48px 32px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+
+    .footer-heading {
+      margin: 0 0 12px;
+      color: var(--paper);
+      font-family: var(--font-data);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .footer-list {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .footer-list a {
+      display: inline-flex;
+      min-height: 48px;
+      align-items: center;
+      color: var(--road);
+      text-underline-offset: 4px;
+    }
+
+    .fraud-warning {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 12px;
+      margin-top: 48px;
+      padding: 24px;
+      border: 1px solid var(--alert);
+      border-radius: 4px;
+      background: var(--paper);
+      color: var(--ink);
+    }
+
+    .fraud-warning h2 {
+      margin: 0 0 8px;
+      font-family: var(--font-display);
+      font-size: 21px;
+      line-height: 1.3;
+    }
+
+    .fraud-warning p {
+      max-width: 68ch;
+      margin: 0;
+    }
+
+    .fraud-warning .ic {
+      color: var(--alert);
+    }
+
+    .company-meta {
+      display: grid;
+      gap: 16px;
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid var(--steel);
+      color: var(--line);
+      font-size: 13px;
+    }
+
+    .company-meta p {
+      margin: 0;
+    }
+
+    .footer-language {
+      width: 172px;
+      min-width: 172px;
+      max-width: 100%;
+      padding: 0 38px 0 16px;
+      border-color: var(--steel);
+      background: var(--ink);
+      color: var(--paper);
+      font-size: 14px;
+    }
+
+    .demo-credit {
+      margin-top: 12px !important;
+      color: var(--line);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+
+    .demo-credit a {
+      text-decoration-color: rgb(216 222 220 / 52%);
+      text-underline-offset: 3px;
+    }
+
+    .demo-credit a:hover {
+      color: var(--paper);
+      text-decoration-color: currentColor;
+    }
+
+    @media (min-width: 768px) {
+      .container {
+        width: min(100% - 64px, 1200px);
+      }
+
+      .call-link {
+        padding-inline: 16px;
+      }
+
+      .header-inner {
+        gap: 20px;
+      }
+
+      .header-actions {
+        gap: 14px;
+      }
+
+      .call-label {
+        display: inline;
+      }
+
+      .language-select {
+        width: 144px;
+        padding: 0 30px 0 38px;
+        font-size: 15px;
+      }
+
+      .hero {
+        padding-block: 96px;
+      }
+
+      .hero-grid {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        align-items: center;
+        gap: 48px;
+      }
+
+      .primary-action {
+        width: auto;
+      }
+
+      .trust-list {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .trust-item {
+        min-height: 112px;
+        padding: 24px;
+      }
+
+      .trust-item + .trust-item {
+        border-top: 0;
+        border-left: 1px solid var(--line);
+      }
+
+      .eligibility {
+        padding-block: 96px;
+      }
+
+      .content-section {
+        padding-block: 96px;
+      }
+
+      .inspection-row {
+        grid-template-columns: 56px minmax(0, 1fr);
+        padding: 24px;
+      }
+
+      .radio-options {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .work-grid,
+      .income-layout,
+      .cost-layout,
+      .requirements-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 32px;
+      }
+
+      .calculator-fields {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .benefit-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .story-profile {
+        grid-template-columns: 56px minmax(0, 1fr) auto;
+        padding: 24px 28px;
+      }
+
+      .story-badge {
+        grid-column: auto;
+      }
+
+      .story-quote {
+        padding: 40px 28px;
+      }
+
+      .story-facts {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .story-facts > div {
+        padding: 20px 28px;
+      }
+
+      .story-facts > div + div {
+        border-top: 0;
+        border-left: 1px solid var(--line);
+      }
+
+      .company-layout {
+        grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+      }
+
+      .form-panel {
+        padding: 32px;
+      }
+
+      .form-grid.two-columns,
+      .choice-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .sticky-actions {
+        display: none;
+      }
+
+      .footer-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .company-meta {
+        grid-template-columns: 1fr auto;
+        align-items: end;
+      }
+
+      .workplace-media {
+        width: min(100%, 960px);
+        margin: 56px auto 0;
+      }
+
+      .workplace-media img {
+        aspect-ratio: 16 / 7;
+      }
+    }
+
+    @media (min-width: 900px) and (max-width: 1199px) {
+      .site-header {
+        height: 120px;
+      }
+
+      .header-inner {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        grid-template-rows: 64px 56px;
+        column-gap: 24px;
+        row-gap: 0;
+      }
+
+      .head-menu {
+        display: flex;
+        grid-column: 1 / -1;
+        grid-row: 2;
+        justify-content: center;
+        align-self: stretch;
+        margin-left: 0;
+        border-top: 1px solid var(--line);
+      }
+
+      .header-actions {
+        grid-column: 2;
+        grid-row: 1;
+        margin-left: 0;
+        gap: 14px;
+      }
+
+      .header-actions .language-select {
+        width: 148px;
+        font-size: 14px;
+      }
+
+      .head-menu > a,
+      .menu-disclosure > summary {
+        min-height: 55px;
+        padding-inline: 20px;
+        font-size: 14px;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .footer-inner {
+        padding-block: 96px 32px;
+      }
+
+      .footer-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .site-header {
+        height: 72px;
+      }
+
+      .header-inner {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        gap: 18px;
+      }
+
+      .head-menu {
+        display: flex;
+        justify-content: center;
+        margin-left: 0;
+      }
+
+      .head-menu > a,
+      .menu-disclosure > summary {
+        padding-inline: 14px;
+      }
+
+      .header-actions {
+        margin-left: 0;
+        padding-left: 20px;
+        border-left: 1px solid var(--line);
+        gap: 18px;
+      }
+
+      .header-actions .language-select {
+        width: 148px;
+        font-size: 15px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main-content" data-i18n="common.skipToContent"></a>
+
+  <header class="site-header" data-section="S0">
+    <div class="container header-inner">
+      <a class="brand" href="#main-content" data-i18n="common.brand"></a>
+
+      <nav class="head-menu" data-i18n-aria-label="header.sitemapLabel">
+        <a href="#eligibility" data-i18n="header.conditions"></a>
+        <a href="#income-title" data-i18n="header.income"></a>
+        <a href="#roadmap-title" data-i18n="header.process"></a>
+        <details class="menu-disclosure">
+          <summary><span data-i18n="header.information"></span><i data-lucide="chevron-down" class="ic chevron" aria-hidden="true"></i></summary>
+          <div class="menu-dropdown">
+            <a href="#cost-title" data-i18n="header.costs"></a>
+            <a href="#company-title" data-i18n="header.company"></a>
+            <a href="#faq-title" data-i18n="header.faq"></a>
+            <a href="#application-title" data-i18n="header.apply"></a>
+          </div>
+        </details>
+      </nav>
+
+      <div class="header-actions">
+        <label class="language-control">
+          <span class="sr-only" data-i18n="common.languageLabel"></span>
+          <i data-lucide="globe" class="ic" aria-hidden="true"></i>
+          <select class="language-select" data-locale-select aria-label="">
+            <option value="vi" data-i18n="common.languageVi"></option>
+            <option value="ja" data-i18n="common.languageJa"></option>
+          </select>
+          <i data-lucide="chevron-down" class="ic chevron" aria-hidden="true"></i>
+        </label>
+
+        <a class="call-link" data-call-link aria-disabled="true">
+          <i data-lucide="phone" class="ic" aria-hidden="true"></i>
+          <span class="call-label" data-i18n="header.call"></span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content" tabindex="-1">
+    <section class="hero" data-section="S1" aria-labelledby="hero-title">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow" data-i18n="hero.eyebrow"></p>
+          <h1 class="hero-title" id="hero-title" data-i18n="hero.title"></h1>
+          <p class="hero-subtitle" data-i18n="hero.subtitle"></p>
+          <a class="primary-action" href="#eligibility">
+            <span data-i18n="hero.primaryAction"></span>
+            <i data-lucide="arrow-right" class="ic" aria-hidden="true"></i>
+          </a>
+          <a class="secondary-action" href="#jobs" data-i18n="hero.secondaryAction"></a>
+        </div>
+
+        <figure class="hero-media">
+          <div class="hero-image-frame" data-hero-image-frame>
+            <img class="hero-image" src="assets/img/hero-japan-logistics.webp" srcset="assets/img/hero-japan-logistics-mobile.webp 720w, assets/img/hero-japan-logistics.webp 1200w" sizes="(max-width: 767px) calc(100vw - 48px), 50vw" width="1200" height="672" alt="" fetchpriority="high" data-hero-image>
+          </div>
+          <figcaption class="image-caption" data-i18n="hero.imageCaption"></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="trust-strip" data-section="S2" data-i18n-aria-label="trust.label">
+      <div class="container">
+        <ul class="trust-list">
+          <li class="trust-item">
+            <i data-lucide="arrow-right-left" class="ic" aria-hidden="true"></i>
+            <span data-i18n="trust.direct"></span>
+          </li>
+          <li class="trust-item">
+            <i data-lucide="banknote" class="ic" aria-hidden="true"></i>
+            <span data-i18n="trust.costs"></span>
+          </li>
+          <li class="trust-item">
+            <i data-lucide="search-check" class="ic" aria-hidden="true"></i>
+            <span data-i18n="trust.status"></span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <script>
+      (() => {
+        let locale = "vi";
+        try {
+          locale = sessionStorage.getItem("andmore-locale") || "vi";
+        } catch (error) {}
+        if (!Object.hasOwn(i18n, locale)) locale = "vi";
+        const valueFor = (key) => key.split(".").reduce((value, part) => value && value[part], i18n[locale]);
+        document.documentElement.lang = locale;
+        document.title = valueFor("common.pageTitle");
+        document.querySelector('meta[name="description"]').content = valueFor("common.pageDescription");
+        document.querySelectorAll('.skip-link[data-i18n], .site-header [data-i18n], [data-section="S1"] [data-i18n], [data-section="S2"] [data-i18n]').forEach((element) => {
+          const value = valueFor(element.dataset.i18n);
+          if (typeof value === "string") element.textContent = value;
+        });
+        document.querySelector('[data-section="S2"]').setAttribute("aria-label", valueFor("trust.label"));
+        document.querySelectorAll("[data-locale-select]").forEach((select) => {
+          select.value = locale;
+          select.setAttribute("aria-label", valueFor("common.languageLabel"));
+        });
+      })();
+    </script>
+
+    <section class="eligibility" id="eligibility" data-section="S3" aria-labelledby="eligibility-title">
+      <div class="container">
+        <p class="section-marker" data-i18n="eligibility.marker"></p>
+        <h2 class="section-title" id="eligibility-title" data-i18n="eligibility.title"></h2>
+        <p class="section-subtitle" data-i18n="eligibility.subtitle"></p>
+
+        <form class="inspection-sheet" data-eligibility-form>
+          <fieldset class="inspection-row">
+            <span class="inspection-number" aria-hidden="true">01</span>
+            <div class="inspection-content">
+              <legend class="inspection-question" data-i18n="eligibility.questions.age"></legend>
+              <div class="radio-options">
+                <label class="radio-option"><input type="radio" name="age" value="under20"><span data-i18n="eligibility.options.age.under20"></span></label>
+                <label class="radio-option"><input type="radio" name="age" value="20to39"><span data-i18n="eligibility.options.age.20to39"></span></label>
+                <label class="radio-option"><input type="radio" name="age" value="40plus"><span data-i18n="eligibility.options.age.40plus"></span></label>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="inspection-row">
+            <span class="inspection-number" aria-hidden="true">02</span>
+            <div class="inspection-content">
+              <legend class="inspection-question" data-i18n="eligibility.questions.license"></legend>
+              <div class="radio-options">
+                <label class="radio-option"><input type="radio" name="license" value="none"><span data-i18n="eligibility.options.license.none"></span></label>
+                <label class="radio-option"><input type="radio" name="license" value="b2"><span data-i18n="eligibility.options.license.b2"></span></label>
+                <label class="radio-option"><input type="radio" name="license" value="c"><span data-i18n="eligibility.options.license.c"></span></label>
+                <label class="radio-option"><input type="radio" name="license" value="de"><span data-i18n="eligibility.options.license.de"></span></label>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="inspection-row">
+            <span class="inspection-number" aria-hidden="true">03</span>
+            <div class="inspection-content">
+              <legend class="inspection-question" data-i18n="eligibility.questions.experience"></legend>
+              <div class="radio-options">
+                <label class="radio-option"><input type="radio" name="experience" value="none"><span data-i18n="eligibility.options.experience.none"></span></label>
+                <label class="radio-option"><input type="radio" name="experience" value="under1"><span data-i18n="eligibility.options.experience.under1"></span></label>
+                <label class="radio-option"><input type="radio" name="experience" value="1to2"><span data-i18n="eligibility.options.experience.1to2"></span></label>
+                <label class="radio-option"><input type="radio" name="experience" value="3plus"><span data-i18n="eligibility.options.experience.3plus"></span></label>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="inspection-row">
+            <span class="inspection-number" aria-hidden="true">04</span>
+            <div class="inspection-content">
+              <legend class="inspection-question" data-i18n="eligibility.questions.japanese"></legend>
+              <div class="radio-options">
+                <label class="radio-option"><input type="radio" name="japanese" value="none"><span data-i18n="eligibility.options.japanese.none"></span></label>
+                <label class="radio-option"><input type="radio" name="japanese" value="n5"><span data-i18n="eligibility.options.japanese.n5"></span></label>
+                <label class="radio-option"><input type="radio" name="japanese" value="n4"><span data-i18n="eligibility.options.japanese.n4"></span></label>
+                <label class="radio-option"><input type="radio" name="japanese" value="n3"><span data-i18n="eligibility.options.japanese.n3"></span></label>
+                <label class="radio-option"><input type="radio" name="japanese" value="jft"><span data-i18n="eligibility.options.japanese.jft"></span></label>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="inspection-row">
+            <span class="inspection-number" aria-hidden="true">05</span>
+            <div class="inspection-content">
+              <legend class="inspection-question" data-i18n="eligibility.questions.skillExam"></legend>
+              <div class="radio-options">
+                <label class="radio-option"><input type="radio" name="skillExam" value="notTaken"><span data-i18n="eligibility.options.skillExam.notTaken"></span></label>
+                <label class="radio-option"><input type="radio" name="skillExam" value="waiting"><span data-i18n="eligibility.options.skillExam.waiting"></span></label>
+                <label class="radio-option"><input type="radio" name="skillExam" value="passed"><span data-i18n="eligibility.options.skillExam.passed"></span></label>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="inspection-row">
+            <span class="inspection-number" aria-hidden="true">06</span>
+            <div class="inspection-content">
+              <legend class="inspection-question" data-i18n="eligibility.questions.health"></legend>
+              <div class="radio-options">
+                <label class="radio-option"><input type="radio" name="health" value="ready"><span data-i18n="eligibility.options.health.ready"></span></label>
+                <label class="radio-option"><input type="radio" name="health" value="needsExam"><span data-i18n="eligibility.options.health.needsExam"></span></label>
+                <label class="radio-option"><input type="radio" name="health" value="concern"><span data-i18n="eligibility.options.health.concern"></span></label>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="inspection-row">
+            <span class="inspection-number" aria-hidden="true">07</span>
+            <div class="inspection-content">
+              <legend class="inspection-question" data-i18n="eligibility.questions.residence"></legend>
+              <div class="radio-options">
+                <label class="radio-option"><input type="radio" name="residence" value="never"><span data-i18n="eligibility.options.residence.never"></span></label>
+                <label class="radio-option"><input type="radio" name="residence" value="compliant"><span data-i18n="eligibility.options.residence.compliant"></span></label>
+                <label class="radio-option"><input type="radio" name="residence" value="needsReview"><span data-i18n="eligibility.options.residence.needsReview"></span></label>
+              </div>
+            </div>
+          </fieldset>
+        </form>
+
+        <p class="eligibility-progress" data-eligibility-progress aria-live="polite"></p>
+        <div class="eligibility-result" data-eligibility-result aria-live="polite" hidden></div>
+      </div>
+    </section>
+
+    <section class="content-section" data-section="S4" aria-labelledby="workday-title">
+      <div class="container">
+        <div class="inspection-heading"><p class="section-marker" data-i18n="workday.marker"></p></div>
+        <h2 class="section-title" id="workday-title" data-i18n="workday.title"></h2>
+        <div class="work-grid">
+          <ol class="timeline-list">
+            <li class="timeline-item"><i data-lucide="clipboard-check" class="ic" aria-hidden="true"></i><time class="timeline-time" data-i18n="workday.times.1"></time><span data-i18n="workday.steps.1"></span></li>
+            <li class="timeline-item"><i data-lucide="package" class="ic" aria-hidden="true"></i><time class="timeline-time" data-i18n="workday.times.2"></time><span data-i18n="workday.steps.2"></span></li>
+            <li class="timeline-item"><i data-lucide="route" class="ic" aria-hidden="true"></i><time class="timeline-time" data-i18n="workday.times.3"></time><span data-i18n="workday.steps.3"></span></li>
+            <li class="timeline-item"><i data-lucide="package" class="ic" aria-hidden="true"></i><time class="timeline-time" data-i18n="workday.times.4"></time><span data-i18n="workday.steps.4"></span></li>
+            <li class="timeline-item"><i data-lucide="file-text" class="ic" aria-hidden="true"></i><time class="timeline-time" data-i18n="workday.times.5"></time><span data-i18n="workday.steps.5"></span></li>
+          </ol>
+          <aside class="truth-panel">
+            <h3 class="panel-title" data-i18n="workday.difficulty.title"></h3>
+            <ul class="difficulty-list">
+              <li data-i18n="workday.difficulty.1"></li>
+              <li data-i18n="workday.difficulty.2"></li>
+              <li data-i18n="workday.difficulty.3"></li>
+              <li data-i18n="workday.difficulty.4"></li>
+            </ul>
+          </aside>
+        </div>
+        <figure class="workplace-media">
+          <img src="assets/img/workplace-inspection.webp" width="1200" height="800" alt="" data-workplace-image>
+          <figcaption class="image-caption" data-i18n="workday.imageCaption"></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="content-section" data-section="S5" aria-labelledby="income-title">
+      <div class="container">
+        <div class="inspection-heading"><p class="section-marker" data-i18n="income.marker"></p></div>
+        <h2 class="section-title" id="income-title" data-i18n="income.title"></h2>
+        <div class="income-layout">
+          <div class="data-table-wrap">
+            <table class="data-table salary-table" data-salary-table>
+              <tbody>
+                <tr class="salary-row"><td data-i18n="income.rows.base"></td><td class="money" data-salary-output="base"></td></tr>
+                <tr class="salary-row"><td data-salary-overtime-label></td><td class="money" data-salary-output="overtime"></td></tr>
+                <tr class="salary-row"><td data-i18n="income.rows.allowance"></td><td class="money" data-salary-output="allowance"></td></tr>
+                <tr class="salary-row summary-row"><td data-i18n="income.rows.gross"></td><td class="money" data-salary-output="gross"></td></tr>
+                <tr class="salary-row"><td data-i18n="income.rows.insurance"></td><td class="money" data-salary-output="insurance"></td></tr>
+                <tr class="salary-row"><td data-i18n="income.rows.tax"></td><td class="money" data-salary-output="tax"></td></tr>
+                <tr class="salary-row"><td data-i18n="income.rows.housing"></td><td class="money" data-salary-output="housing"></td></tr>
+                <tr class="salary-row"><td data-i18n="income.rows.utilities"></td><td class="money" data-salary-output="utilities"></td></tr>
+                <tr class="salary-row net-row"><td data-i18n="income.rows.net"></td><td class="money" data-salary-output="net"></td></tr>
+                <tr class="salary-row"><td data-i18n="income.rows.equivalent"></td><td class="money" data-salary-output="equivalent"></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <form class="calculator-panel" data-salary-calculator>
+            <h3 class="calculator-title"><i data-lucide="calculator" class="ic" aria-hidden="true"></i><span data-i18n="income.calculator.title"></span></h3>
+            <p class="calculator-description" data-i18n="income.calculator.description"></p>
+            <div class="calculator-fields">
+              <div class="data-field"><label for="salary-base" data-i18n="income.calculator.base"></label><input class="data-input" id="salary-base" name="base" type="number" min="0" value="250000" inputmode="numeric" data-i18n-placeholder="income.calculator.placeholder"></div>
+              <div class="data-field"><label for="salary-hours" data-i18n="income.calculator.hours"></label><input class="data-input" id="salary-hours" name="hours" type="number" min="0" value="20" inputmode="numeric" data-i18n-placeholder="income.calculator.placeholder"></div>
+              <div class="data-field"><label for="salary-overtime-rate" data-i18n="income.calculator.overtimeRate"></label><input class="data-input" id="salary-overtime-rate" name="overtimeRate" type="number" min="0" value="2000" inputmode="numeric" data-i18n-placeholder="income.calculator.placeholder"></div>
+              <div class="data-field"><label for="salary-allowance" data-i18n="income.calculator.allowance"></label><input class="data-input" id="salary-allowance" name="allowance" type="number" min="0" value="15000" inputmode="numeric" data-i18n-placeholder="income.calculator.placeholder"></div>
+              <div class="data-field"><label for="salary-insurance" data-i18n="income.calculator.insurance"></label><input class="data-input" id="salary-insurance" name="insurance" type="number" min="0" value="38000" inputmode="numeric" data-i18n-placeholder="income.calculator.placeholder"></div>
+              <div class="data-field"><label for="salary-tax" data-i18n="income.calculator.tax"></label><input class="data-input" id="salary-tax" name="tax" type="number" min="0" value="12000" inputmode="numeric" data-i18n-placeholder="income.calculator.placeholder"></div>
+              <div class="data-field"><label for="salary-housing" data-i18n="income.calculator.housing"></label><input class="data-input" id="salary-housing" name="housing" type="number" min="0" value="30000" inputmode="numeric" data-i18n-placeholder="income.calculator.placeholder"></div>
+              <div class="data-field"><label for="salary-utilities" data-i18n="income.calculator.utilities"></label><input class="data-input" id="salary-utilities" name="utilities" type="number" min="0" value="10000" inputmode="numeric" data-i18n-placeholder="income.calculator.placeholder"></div>
+              <div class="data-field"><label for="salary-rate" data-i18n="income.calculator.exchangeRate"></label><input class="data-input" id="salary-rate" name="exchangeRate" type="number" min="0" step="0.01" value="165" inputmode="decimal" data-i18n-placeholder="income.calculator.placeholder"></div>
+            </div>
+          </form>
+        </div>
+        <ul class="note-list">
+          <li><span aria-hidden="true">※ </span><span data-i18n="income.notes.1"></span></li>
+          <li><span aria-hidden="true">※ </span><span data-i18n="income.notes.2"></span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="content-section" data-section="S6" aria-labelledby="cost-title">
+      <div class="container">
+        <div class="inspection-heading"><p class="section-marker" data-i18n="costs.marker"></p></div>
+        <h2 class="section-title" id="cost-title" data-i18n="costs.title"></h2>
+        <div class="cost-layout">
+          <div class="data-table-wrap">
+            <table class="data-table">
+              <thead><tr><th data-i18n="costs.columns.item"></th><th data-i18n="costs.columns.amount"></th><th data-i18n="costs.columns.payer"></th></tr></thead>
+              <tbody>
+                <tr><td data-i18n="costs.rows.brokerage"></td><td class="money" data-i18n="costs.values.zero"></td><td data-i18n="costs.values.no"></td></tr>
+                <tr><td data-i18n="costs.rows.language"></td><td class="money" data-i18n="costs.details.language.amount"></td><td data-i18n="costs.details.language.payer"></td></tr>
+                <tr><td data-i18n="costs.rows.exam"></td><td class="money" data-i18n="costs.details.exam.amount"></td><td data-i18n="costs.details.exam.payer"></td></tr>
+                <tr><td data-i18n="costs.rows.health"></td><td class="money" data-i18n="costs.details.health.amount"></td><td data-i18n="costs.details.health.payer"></td></tr>
+                <tr><td data-i18n="costs.rows.passport"></td><td class="money" data-i18n="costs.details.passport.amount"></td><td data-i18n="costs.details.passport.payer"></td></tr>
+                <tr><td data-i18n="costs.rows.flight"></td><td class="money" data-i18n="costs.details.flight.amount"></td><td data-i18n="costs.details.flight.payer"></td></tr>
+                <tr><td data-i18n="costs.rows.license"></td><td class="money" data-i18n="costs.details.license.amount"></td><td data-i18n="costs.details.license.payer"></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <aside class="information-panel"><i data-lucide="info" class="ic" aria-hidden="true"></i><p data-i18n="costs.legalNote"></p></aside>
+            <aside class="warning-panel"><i data-lucide="triangle-alert" class="ic" aria-hidden="true"></i><p data-i18n="costs.warning"></p></aside>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section" data-section="S7" aria-labelledby="requirements-title">
+      <div class="container">
+        <div class="inspection-heading"><p class="section-marker" data-i18n="requirements.marker"></p></div>
+        <h2 class="section-title" id="requirements-title" data-i18n="requirements.title"></h2>
+        <div class="requirements-grid">
+          <div class="data-table-wrap">
+            <table class="data-table requirements-table">
+              <tbody>
+                <tr><td>01</td><td data-i18n="requirements.conditions.1"></td></tr>
+                <tr><td>02</td><td data-i18n="requirements.conditions.2"></td></tr>
+                <tr><td>03</td><td data-i18n="requirements.conditions.3"></td></tr>
+                <tr><td>04</td><td data-i18n="requirements.conditions.4"></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="data-panel">
+            <h3 class="panel-title" data-i18n="requirements.documentsTitle"></h3>
+            <p class="document-copy" data-i18n="requirements.documents"></p>
+          </div>
+        </div>
+        <aside class="information-panel"><i data-lucide="info" class="ic" aria-hidden="true"></i><p data-i18n="requirements.note"></p></aside>
+      </div>
+    </section>
+
+    <section class="content-section" data-section="S8" aria-labelledby="roadmap-title">
+      <div class="container">
+        <div class="inspection-heading"><p class="section-marker" data-i18n="roadmap.marker"></p></div>
+        <h2 class="section-title" id="roadmap-title" data-i18n="roadmap.title"></h2>
+        <ol class="roadmap-list">
+          <li class="roadmap-step">
+            <span class="roadmap-icon"><i data-lucide="file-text" class="ic" aria-hidden="true"></i></span>
+            <div class="roadmap-card"><span class="roadmap-number">01</span><h3 class="roadmap-name" data-i18n="roadmap.steps.1.name"></h3><dl class="roadmap-meta"><dt class="roadmap-meta-label" data-i18n="roadmap.durationLabel"></dt><dd data-i18n="roadmap.steps.1.duration"></dd><dt class="roadmap-meta-label" data-i18n="roadmap.ownerLabel"></dt><dd data-i18n="roadmap.steps.1.owner"></dd></dl></div>
+          </li>
+          <li class="roadmap-step">
+            <span class="roadmap-icon"><i data-lucide="video" class="ic" aria-hidden="true"></i></span>
+            <div class="roadmap-card"><span class="roadmap-number">02</span><h3 class="roadmap-name" data-i18n="roadmap.steps.2.name"></h3><dl class="roadmap-meta"><dt class="roadmap-meta-label" data-i18n="roadmap.durationLabel"></dt><dd data-i18n="roadmap.steps.2.duration"></dd><dt class="roadmap-meta-label" data-i18n="roadmap.ownerLabel"></dt><dd data-i18n="roadmap.steps.2.owner"></dd></dl></div>
+          </li>
+          <li class="roadmap-step">
+            <span class="roadmap-icon"><i data-lucide="circle-check-big" class="ic" aria-hidden="true"></i></span>
+            <div class="roadmap-card"><span class="roadmap-number">03</span><h3 class="roadmap-name" data-i18n="roadmap.steps.3.name"></h3><dl class="roadmap-meta"><dt class="roadmap-meta-label" data-i18n="roadmap.durationLabel"></dt><dd data-i18n="roadmap.steps.3.duration"></dd><dt class="roadmap-meta-label" data-i18n="roadmap.ownerLabel"></dt><dd data-i18n="roadmap.steps.3.owner"></dd></dl></div>
+          </li>
+          <li class="roadmap-step">
+            <span class="roadmap-icon"><i data-lucide="graduation-cap" class="ic" aria-hidden="true"></i></span>
+            <div class="roadmap-card"><span class="roadmap-number">04</span><h3 class="roadmap-name" data-i18n="roadmap.steps.4.name"></h3><dl class="roadmap-meta"><dt class="roadmap-meta-label" data-i18n="roadmap.durationLabel"></dt><dd data-i18n="roadmap.steps.4.duration"></dd><dt class="roadmap-meta-label" data-i18n="roadmap.ownerLabel"></dt><dd data-i18n="roadmap.steps.4.owner"></dd></dl></div>
+          </li>
+          <li class="roadmap-step">
+            <span class="roadmap-icon"><i data-lucide="clipboard-check" class="ic" aria-hidden="true"></i></span>
+            <div class="roadmap-card"><span class="roadmap-number">05</span><h3 class="roadmap-name" data-i18n="roadmap.steps.5.name"></h3><dl class="roadmap-meta"><dt class="roadmap-meta-label" data-i18n="roadmap.durationLabel"></dt><dd data-i18n="roadmap.steps.5.duration"></dd><dt class="roadmap-meta-label" data-i18n="roadmap.ownerLabel"></dt><dd data-i18n="roadmap.steps.5.owner"></dd></dl></div>
+          </li>
+          <li class="roadmap-step">
+            <span class="roadmap-icon"><i data-lucide="stamp" class="ic" aria-hidden="true"></i></span>
+            <div class="roadmap-card"><span class="roadmap-number">06</span><h3 class="roadmap-name" data-i18n="roadmap.steps.6.name"></h3><dl class="roadmap-meta"><dt class="roadmap-meta-label" data-i18n="roadmap.durationLabel"></dt><dd data-i18n="roadmap.steps.6.duration"></dd><dt class="roadmap-meta-label" data-i18n="roadmap.ownerLabel"></dt><dd data-i18n="roadmap.steps.6.owner"></dd></dl></div>
+          </li>
+          <li class="roadmap-step">
+            <span class="roadmap-icon"><i data-lucide="plane-takeoff" class="ic" aria-hidden="true"></i></span>
+            <div class="roadmap-card"><span class="roadmap-number">07</span><h3 class="roadmap-name" data-i18n="roadmap.steps.7.name"></h3><dl class="roadmap-meta"><dt class="roadmap-meta-label" data-i18n="roadmap.durationLabel"></dt><dd data-i18n="roadmap.steps.7.duration"></dd><dt class="roadmap-meta-label" data-i18n="roadmap.ownerLabel"></dt><dd data-i18n="roadmap.steps.7.owner"></dd></dl><aside class="step-note"><p data-i18n="roadmap.steps.7.note"></p></aside></div>
+          </li>
+          <li class="roadmap-step">
+            <span class="roadmap-icon"><i data-lucide="flag" class="ic" aria-hidden="true"></i></span>
+            <div class="roadmap-card"><span class="roadmap-number">08</span><h3 class="roadmap-name" data-i18n="roadmap.steps.8.name"></h3><dl class="roadmap-meta"><dt class="roadmap-meta-label" data-i18n="roadmap.durationLabel"></dt><dd data-i18n="roadmap.steps.8.duration"></dd><dt class="roadmap-meta-label" data-i18n="roadmap.ownerLabel"></dt><dd data-i18n="roadmap.steps.8.owner"></dd></dl></div>
+          </li>
+        </ol>
+        <p class="roadmap-total" data-i18n="roadmap.total"></p>
+      </div>
+    </section>
+
+    <section class="content-section" data-section="S9" aria-labelledby="benefits-title">
+      <div class="container">
+        <div class="inspection-heading"><p class="section-marker" data-i18n="benefits.marker"></p></div>
+        <h2 class="section-title" id="benefits-title" data-i18n="benefits.title"></h2>
+        <ul class="benefit-grid">
+          <li class="benefit-item"><i data-lucide="bed-double" class="ic" aria-hidden="true"></i><div><strong class="benefit-name" data-i18n="benefits.items.housing.title"></strong><span data-i18n="benefits.items.housing.body"></span></div></li>
+          <li class="benefit-item"><i data-lucide="heart-pulse" class="ic" aria-hidden="true"></i><div><strong class="benefit-name" data-i18n="benefits.items.insurance.title"></strong><span data-i18n="benefits.items.insurance.body"></span></div></li>
+          <li class="benefit-item"><i data-lucide="graduation-cap" class="ic" aria-hidden="true"></i><div><strong class="benefit-name" data-i18n="benefits.items.language.title"></strong><span data-i18n="benefits.items.language.body"></span></div></li>
+          <li class="benefit-item"><i data-lucide="bus" class="ic" aria-hidden="true"></i><div><strong class="benefit-name" data-i18n="benefits.items.transport.title"></strong><span data-i18n="benefits.items.transport.body"></span></div></li>
+        </ul>
+        <aside class="family-note"><p data-i18n="benefits.familyNote"></p></aside>
+      </div>
+    </section>
+
+    <section class="content-section" data-section="S10" aria-labelledby="company-title">
+      <div class="container">
+        <div class="inspection-heading"><p class="section-marker" data-i18n="company.marker"></p></div>
+        <h2 class="section-title" id="company-title" data-i18n="company.title"></h2>
+        <div class="company-layout">
+          <div>
+            <p class="company-legal" data-i18n="company.legal"></p>
+            <ol class="verification-list">
+              <li class="verification-item"><span class="verification-number">01</span><span data-i18n="company.checks.1"></span></li>
+              <li class="verification-item"><span class="verification-number">02</span><span data-i18n="company.checks.2"></span></li>
+              <li class="verification-item"><span class="verification-number">03</span><span data-i18n="company.checks.3"></span></li>
+            </ol>
+            <p class="company-legal" data-i18n="company.team"></p>
+          </div>
+          <figure class="map-figure">
+            <a class="map-link" href="https://www.google.com/maps/@34.6472,135.4129,15z/data=!3m1!1e3" target="_blank" rel="noopener noreferrer">
+              <div class="map-frame" data-map-frame><img class="map-image" src="assets/img/osaka-port-satellite-illustration.webp" width="1200" height="800" loading="lazy" alt="" data-map-image></div>
+              <figcaption class="map-action"><span data-i18n="company.mapAction"></span><i data-lucide="external-link" class="ic" aria-hidden="true"></i></figcaption>
+            </a>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section" data-section="S11" aria-labelledby="stories-title">
+      <div class="container">
+        <h2 class="section-title" id="stories-title" data-i18n="stories.title"></h2>
+        <article class="demo-story">
+          <div class="story-profile">
+            <span class="story-avatar" data-i18n="stories.initials" aria-hidden="true"></span>
+            <div>
+              <p class="story-name" data-i18n="stories.name"></p>
+              <p class="story-meta" data-i18n="stories.meta"></p>
+            </div>
+            <span class="story-badge" data-i18n="stories.badge"></span>
+          </div>
+          <blockquote class="story-quote">
+            <i data-lucide="quote" class="ic" aria-hidden="true"></i>
+            <p data-i18n="stories.quote"></p>
+          </blockquote>
+          <dl class="story-facts">
+            <div><dt data-i18n="stories.facts.licenseLabel"></dt><dd data-i18n="stories.facts.license"></dd></div>
+            <div><dt data-i18n="stories.facts.japaneseLabel"></dt><dd data-i18n="stories.facts.japanese"></dd></div>
+            <div><dt data-i18n="stories.facts.stageLabel"></dt><dd data-i18n="stories.facts.stage"></dd></div>
+          </dl>
+        </article>
+        <p class="story-disclaimer"><i data-lucide="info" class="ic" aria-hidden="true"></i><span data-i18n="stories.disclaimer"></span></p>
+      </div>
+    </section>
+
+    <section class="content-section" data-section="S12" aria-labelledby="faq-title">
+      <div class="container">
+        <h2 class="section-title" id="faq-title" data-i18n="faq.title"></h2>
+        <div class="faq-list">
+          <details class="faq-item" open><summary class="faq-question"><span class="faq-number">01</span><span data-i18n="faq.questions.1"></span><i data-lucide="chevron-down" class="ic" aria-hidden="true"></i></summary><div class="faq-answer"><p data-i18n="faq.answers.1"></p></div></details>
+          <details class="faq-item"><summary class="faq-question"><span class="faq-number">02</span><span data-i18n="faq.questions.2"></span><i data-lucide="chevron-down" class="ic" aria-hidden="true"></i></summary><div class="faq-answer"><p data-i18n="faq.answers.2"></p></div></details>
+          <details class="faq-item"><summary class="faq-question"><span class="faq-number">03</span><span data-i18n="faq.questions.3"></span><i data-lucide="chevron-down" class="ic" aria-hidden="true"></i></summary><div class="faq-answer"><p data-i18n="faq.answers.3"></p></div></details>
+          <details class="faq-item"><summary class="faq-question"><span class="faq-number">04</span><span data-i18n="faq.questions.4"></span><i data-lucide="chevron-down" class="ic" aria-hidden="true"></i></summary><div class="faq-answer"><p data-i18n="faq.answers.4"></p></div></details>
+          <details class="faq-item"><summary class="faq-question"><span class="faq-number">05</span><span data-i18n="faq.questions.5"></span><i data-lucide="chevron-down" class="ic" aria-hidden="true"></i></summary><div class="faq-answer"><p data-i18n="faq.answers.5"></p></div></details>
+          <details class="faq-item"><summary class="faq-question"><span class="faq-number">06</span><span data-i18n="faq.questions.6"></span><i data-lucide="chevron-down" class="ic" aria-hidden="true"></i></summary><div class="faq-answer"><p data-i18n="faq.answers.6"></p></div></details>
+          <details class="faq-item"><summary class="faq-question"><span class="faq-number">07</span><span data-i18n="faq.questions.7"></span><i data-lucide="chevron-down" class="ic" aria-hidden="true"></i></summary><div class="faq-answer"><p data-i18n="faq.answers.7"></p></div></details>
+          <details class="faq-item"><summary class="faq-question"><span class="faq-number">08</span><span data-i18n="faq.questions.8"></span><i data-lucide="chevron-down" class="ic" aria-hidden="true"></i></summary><div class="faq-answer"><p data-i18n="faq.answers.8"></p></div></details>
+          <details class="faq-item"><summary class="faq-question"><span class="faq-number">09</span><span data-i18n="faq.questions.9"></span><i data-lucide="chevron-down" class="ic" aria-hidden="true"></i></summary><div class="faq-answer"><p data-i18n="faq.answers.9"></p></div></details>
+          <details class="faq-item"><summary class="faq-question"><span class="faq-number">10</span><span data-i18n="faq.questions.10"></span><i data-lucide="chevron-down" class="ic" aria-hidden="true"></i></summary><div class="faq-answer"><p data-i18n="faq.answers.10"></p></div></details>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section" id="application" data-section="S13" aria-labelledby="application-title">
+      <div class="container">
+        <h2 class="section-title" id="application-title" data-i18n="application.title"></h2>
+        <div class="application-shell">
+          <ol class="form-progress" data-form-progress aria-label="">
+            <li class="is-current" data-progress-step="1">1 / 3</li>
+            <li data-progress-step="2">2 / 3</li>
+            <li data-progress-step="3">3 / 3</li>
+          </ol>
+
+          <form data-application-form novalidate>
+            <section class="form-panel" data-form-step="1" aria-labelledby="form-step-1-title">
+              <h3 class="form-step-title" id="form-step-1-title" data-i18n="application.step1.title"></h3>
+              <div class="form-grid two-columns">
+                <div class="form-field">
+                  <label class="form-label" for="app-full-name" data-i18n="application.step1.fullName"></label>
+                  <p class="field-example" data-i18n="application.step1.fullNameExample"></p>
+                  <input class="form-control" id="app-full-name" name="fullName" type="text" autocomplete="name" required aria-describedby="error-fullName">
+                  <p class="field-error" id="error-fullName" data-error-for="fullName" aria-live="polite"></p>
+                </div>
+                <div class="form-field">
+                  <label class="form-label" for="app-birth-year" data-i18n="application.step1.birthYear"></label>
+                  <select class="form-control" id="app-birth-year" name="birthYear" required aria-describedby="error-birthYear" data-birth-year-select></select>
+                  <p class="field-error" id="error-birthYear" data-error-for="birthYear" aria-live="polite"></p>
+                </div>
+                <div class="form-field">
+                  <label class="form-label" for="app-phone" data-i18n="application.step1.phone"></label>
+                  <p class="field-example" data-i18n="application.step1.phoneExample"></p>
+                  <input class="form-control" id="app-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required aria-describedby="error-phone">
+                  <p class="field-error" id="error-phone" data-error-for="phone" aria-live="polite"></p>
+                </div>
+                <div class="form-field">
+                  <label class="form-label" for="app-province" data-i18n="application.step1.province"></label>
+                  <select class="form-control" id="app-province" name="province" required aria-describedby="error-province" data-province-select></select>
+                  <p class="field-error" id="error-province" data-error-for="province" aria-live="polite"></p>
+                </div>
+                <fieldset class="choice-fieldset">
+                  <legend class="choice-legend" data-i18n="application.step1.occupation"></legend>
+                  <div class="choice-grid" data-occupation-options></div>
+                  <p class="field-error" data-error-for="occupation" aria-live="polite"></p>
+                </fieldset>
+                <fieldset class="choice-fieldset">
+                  <legend class="choice-legend" data-i18n="application.step1.license"></legend>
+                  <div class="choice-grid" data-license-options></div>
+                  <p class="field-error" data-error-for="appLicense" aria-live="polite"></p>
+                </fieldset>
+              </div>
+              <div class="form-actions"><button class="form-button primary" type="button" data-next-step="2" data-i18n="application.step1.next"></button></div>
+            </section>
+
+            <section class="form-panel" data-form-step="2" aria-labelledby="form-step-2-title" hidden>
+              <h3 class="form-step-title" id="form-step-2-title" data-i18n="application.step2.title"></h3>
+              <p class="skip-documents-note" data-i18n="application.step2.skipNote"></p>
+              <div class="document-upload-list" data-document-upload-list></div>
+              <p class="field-error" data-upload-error aria-live="polite"></p>
+              <div class="form-actions">
+                <button class="form-button" type="button" data-previous-step="1" data-i18n="application.common.back"></button>
+                <button class="form-button primary" type="button" data-next-step="3" data-i18n="application.step2.continue"></button>
+              </div>
+            </section>
+
+            <section class="form-panel" data-form-step="3" aria-labelledby="form-step-3-title" hidden>
+              <h3 class="form-step-title" id="form-step-3-title" data-i18n="application.step3.title"></h3>
+              <div class="consent-list">
+                <label class="consent-row"><input type="checkbox" name="consentProcessing" required><span data-i18n="application.step3.consent1"></span></label>
+                <p class="field-error" data-error-for="consentProcessing" aria-live="polite"></p>
+                <label class="consent-row"><input type="checkbox" name="consentTransfer" required><span data-i18n="application.step3.consent2"></span></label>
+                <p class="field-error" data-error-for="consentTransfer" aria-live="polite"></p>
+                <label class="consent-row"><input type="checkbox" name="consentMarketing"><span data-i18n="application.step3.consent3"></span></label>
+              </div>
+              <p class="retention-note" data-i18n="application.step3.retention"></p>
+              <div class="schedule-panel">
+                <h3 data-i18n="application.step3.schedule"></h3>
+                <div class="form-field">
+                  <label class="form-label" for="interview-time" data-i18n="application.step3.scheduleTime"></label>
+                  <input class="form-control" id="interview-time" name="interviewTime" type="datetime-local">
+                </div>
+                <p class="dual-time" data-dual-time data-i18n="application.step3.dualTime"></p>
+              </div>
+              <button class="form-button" type="button" data-previous-step="2" data-i18n="application.common.back"></button>
+              <div class="form-actions"><button class="form-button primary" type="submit" data-submit-button><span data-submit-label data-i18n="application.step3.submit"></span></button></div>
+            </section>
+          </form>
+
+          <section class="application-success" data-application-success aria-live="polite" hidden>
+            <h3 class="section-title" data-i18n="application.success.title"></h3>
+            <p class="receipt-label" data-i18n="application.success.codeLabel"></p>
+            <p class="receipt-code" data-receipt-code></p>
+            <button class="form-button" type="button" data-copy-code><i data-lucide="copy" class="ic" aria-hidden="true"></i><span data-i18n="application.success.copy"></span></button>
+            <p class="success-next" data-i18n="application.success.next"></p>
+            <div class="form-actions">
+              <a class="form-button primary" data-zalo-link aria-disabled="true" data-i18n="application.success.zalo"></a>
+              <a class="form-button" href="/tra-cuu-ho-so/" data-i18n="application.success.status"></a>
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <nav class="sticky-actions" data-section="S14" data-sticky-actions aria-label="">
+    <a class="sticky-main" href="#eligibility" data-i18n="sticky.eligibility"></a>
+    <a class="sticky-secondary" data-zalo-link aria-disabled="true"><i data-lucide="message-circle" class="ic" aria-hidden="true"></i><span data-i18n="sticky.zalo"></span></a>
+    <a class="sticky-secondary" data-call-link aria-disabled="true"><i data-lucide="phone" class="ic" aria-hidden="true"></i><span data-i18n="sticky.phone"></span></a>
+  </nav>
+
+  <footer class="site-footer" data-section="S15">
+    <div class="container footer-inner">
+      <nav class="footer-grid" data-i18n-aria-label="footer.navigationLabel">
+        <section>
+          <h2 class="footer-heading" data-i18n="footer.jobs.title"></h2>
+          <ul class="footer-list">
+            <li><a href="#" data-i18n="footer.jobs.truck"></a></li>
+            <li><a href="#" data-i18n="footer.jobs.engineer"></a></li>
+            <li><a href="#" data-i18n="footer.jobs.interpreter"></a></li>
+            <li><a href="#" data-i18n="footer.jobs.coordinator"></a></li>
+          </ul>
+        </section>
+
+        <section>
+          <h2 class="footer-heading" data-i18n="footer.tools.title"></h2>
+          <ul class="footer-list">
+            <li><a href="#" data-i18n="footer.tools.eligibility"></a></li>
+            <li><a href="#" data-i18n="footer.tools.salary"></a></li>
+            <li><a href="#" data-i18n="footer.tools.status"></a></li>
+            <li><a href="#" data-i18n="footer.tools.roadmap"></a></li>
+            <li><a href="#" data-i18n="footer.tools.costs"></a></li>
+          </ul>
+        </section>
+
+        <section>
+          <h2 class="footer-heading" data-i18n="footer.about.title"></h2>
+          <ul class="footer-list">
+            <li><a href="#" data-i18n="footer.about.introduction"></a></li>
+            <li><a href="#" data-i18n="footer.about.stories"></a></li>
+            <li><a href="#" data-i18n="footer.about.news"></a></li>
+            <li><a href="#" data-i18n="footer.about.contact"></a></li>
+          </ul>
+        </section>
+
+        <section>
+          <h2 class="footer-heading" data-i18n="footer.legal.title"></h2>
+          <ul class="footer-list">
+            <li><a href="#" data-i18n="footer.legal.privacy"></a></li>
+            <li><a href="#" data-i18n="footer.legal.data"></a></li>
+            <li><a href="#" data-i18n="footer.legal.terms"></a></li>
+            <li><a href="#" data-i18n="footer.legal.sitemap"></a></li>
+          </ul>
+        </section>
+      </nav>
+
+      <aside class="fraud-warning" aria-labelledby="fraud-warning-title">
+        <i data-lucide="triangle-alert" class="ic" aria-hidden="true"></i>
+        <div>
+          <h2 id="fraud-warning-title" data-i18n="footer.warning.title"></h2>
+          <p>
+            <span data-i18n="footer.warning.body"></span>
+            <a href="https://gomedia.com.vn/" target="_blank" rel="noopener noreferrer" data-i18n="footer.warning.link"></a>
+          </p>
+        </div>
+      </aside>
+
+      <div class="company-meta">
+        <div>
+          <p data-i18n="footer.company"></p>
+          <p data-i18n="footer.address"></p>
+          <p data-i18n="footer.registration"></p>
+          <p data-i18n="footer.copyright"></p>
+          <p class="demo-credit"><a href="https://gotek.asia/" target="_blank" rel="noopener noreferrer" data-i18n="footer.demoBy"></a></p>
+        </div>
+        <select class="language-select footer-language" data-locale-select data-i18n-aria-label="common.languageLabel">
+          <option value="vi" data-i18n="common.languageVi"></option>
+          <option value="ja" data-i18n="common.languageJa"></option>
+        </select>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script>
+    Object.assign(i18n, {
+      vi: {
+        common: {
+          brand: "ANDMORE",
+          pageTitle: "ANDMORE Recruit",
+          pageDescription: "ANDMORE tuyển dụng trực tiếp nhân sự Việt Nam sang Nhật Bản.",
+          placeholder: "Đang cập nhật",
+          skipToContent: "Chuyển đến nội dung chính",
+          languageLabel: "Chọn ngôn ngữ",
+          languageVi: "Tiếng Việt",
+          languageJa: "日本語"
+        },
+        header: {
+          call: "Gọi tư vấn",
+          callUnavailable: "Hotline tư vấn",
+          sitemapLabel: "Điều hướng chính",
+          jobs: "Việc làm",
+          conditions: "Điều kiện",
+          income: "Thu nhập",
+          process: "Quy trình",
+          information: "Thông tin",
+          costs: "Chi phí",
+          company: "ANDMORE",
+          faq: "Câu hỏi thường gặp",
+          apply: "Ứng tuyển"
+        },
+        hero: {
+          eyebrow: "KỸ NĂNG ĐẶC ĐỊNH SỐ 1 · VẬN TẢI Ô TÔ (XE TẢI)",
+          title: "Lái xe tải tại Nhật Bản. Điều kiện, chi phí, thời gian, nói trước tất cả.",
+          subtitle: "Tuyển trực tiếp bởi ANDMORE Co., Ltd. (Nhật Bản). Không qua công ty môi giới.",
+          primaryAction: "Kiểm tra điều kiện của bạn · 1 phút",
+          secondaryAction: "Xem các đơn hiện có",
+          imageCaption: "Ảnh minh họa"
+        },
+        trust: {
+          label: "Tín hiệu tin cậy",
+          direct: "Tuyển trực tiếp, không qua công ty môi giới",
+          costs: "Từng khoản chi phí đều công khai",
+          status: "Tra cứu trạng thái hồ sơ bất cứ lúc nào"
+        },
+        eligibility: {
+          marker: "点検 01 / MỤC 01",
+          title: "Phiếu kiểm tra điều kiện của bạn",
+          subtitle: "7 mục · Không cần để lại thông tin liên hệ",
+          questions: {
+            age: "Tuổi của bạn",
+            license: "Bằng lái hiện có",
+            experience: "Số năm kinh nghiệm lái xe tải",
+            japanese: "Trình độ tiếng Nhật",
+            skillExam: "Kỳ thi kỹ năng đặc định ngành vận tải ô tô",
+            health: "Sức khoẻ và thị lực",
+            residence: "Từng cư trú tại Nhật Bản"
+          },
+          options: {
+            age: { under20: "Dưới 20", "20to39": "20–39", "40plus": "40 trở lên" },
+            license: { none: "Chưa có", b2: "B2", c: "C", de: "D, E" },
+            experience: { none: "Chưa có", under1: "Dưới 1 năm", "1to2": "1–2 năm", "3plus": "3 năm trở lên" },
+            japanese: { none: "Chưa học", n5: "N5", n4: "N4", n3: "N3+", jft: "Đã đỗ JFT-Basic" },
+            skillExam: { notTaken: "Chưa thi", waiting: "Đang chờ kết quả", passed: "Đã đỗ" },
+            health: { ready: "Có thể nộp giấy khám sức khoẻ theo mẫu", needsExam: "Chưa khám theo mẫu", concern: "Có vấn đề cần được tư vấn" },
+            residence: { never: "Chưa từng", compliant: "Đã từng, không có vấn đề về lưu trú", needsReview: "Đã từng, cần kiểm tra lại lịch sử lưu trú" }
+          },
+          progress: "{{count}} / 7",
+          results: {
+            eligible: { stamp: "確認済", message: "Đủ điều kiện ứng tuyển ngay. Bạn có thể nộp hồ sơ hôm nay." },
+            needsReview: { stamp: "要確認", message: "Còn thiếu {{n}} mục. Xem lộ trình bổ sung, thường mất {{n}} tháng." },
+            consultation: { stamp: "要相談", message: "Hiện chưa phù hợp với đơn tài xế. Xem 3 nhóm nghề khác có thể phù hợp hơn." }
+          }
+        },
+        workday: {
+          marker: "点検 02 / MỤC 02",
+          title: "Một ngày làm việc thật, không cắt bớt",
+          times: { 1: "05:30", 2: "06:30", 3: "07:00", 4: "14:00", 5: "17:00" },
+          steps: {
+            1: "Kiểm tra xe trước chuyến",
+            2: "Xếp hàng tại kho",
+            3: "Chạy tuyến",
+            4: "Dỡ hàng tại điểm giao",
+            5: "Về bãi, ghi nhật ký hành trình"
+          },
+          difficulty: {
+            title: "Việc này nặng ở điểm nào",
+            1: "Dậy sớm, giờ làm thay đổi theo tuyến",
+            2: "Có xếp và dỡ hàng bằng tay, không chỉ lái xe",
+            3: "Quy trình kiểm tra xe của Nhật rất chi tiết và không được bỏ bước",
+            4: "Tiếng Nhật cần dùng thật khi giao nhận hàng"
+          },
+          imageCaption: "Ảnh minh họa môi trường kiểm tra xe tại Nhật Bản"
+        },
+        income: {
+          marker: "点検 03 / MỤC 03",
+          title: "Bạn cầm về bao nhiêu",
+          rows: {
+            base: "Lương cơ bản",
+            overtime: "Tăng ca {{n}} giờ/tháng",
+            allowance: "Phụ cấp cố định",
+            gross: "Tổng thu nhập",
+            insurance: "Bảo hiểm xã hội",
+            tax: "Thuế thu nhập, thuế cư trú",
+            housing: "Tiền nhà",
+            utilities: "Điện, nước, gas",
+            net: "THỰC NHẬN",
+            equivalent: "Tương đương"
+          },
+          calculator: {
+            title: "Tự tính với số của bạn",
+            description: "Dùng các số liệu đang hiển thị hoặc thay đổi để tự tính theo điều kiện của bạn.",
+            base: "Lương cơ bản, ¥",
+            hours: "Số giờ tăng ca mỗi tháng",
+            overtimeRate: "Mức trả tăng ca mỗi giờ, ¥",
+            allowance: "Phụ cấp cố định, ¥",
+            insurance: "Bảo hiểm xã hội, ¥",
+            tax: "Thuế thu nhập, thuế cư trú, ¥",
+            housing: "Tiền nhà, ¥",
+            utilities: "Điện, nước, gas, ¥",
+            exchangeRate: "Tỷ giá VND cho 1 ¥",
+            placeholder: "Nhập số tiền"
+          },
+          notes: {
+            1: "Bảng thể hiện cách cộng thu nhập và trừ từng khoản để ra số tiền thực nhận.",
+            2: "Theo luật Nhật, làm thêm vượt giờ pháp định được phụ trội ít nhất 25%, làm ngày nghỉ pháp định ít nhất 35%."
+          }
+        },
+        costs: {
+          marker: "点検 04 / MỤC 04",
+          title: "Khoản nào bạn trả, khoản nào chúng tôi trả",
+          columns: { item: "Khoản mục", amount: "Số tiền", payer: "Bên chi trả" },
+          rows: {
+            brokerage: "Phí môi giới",
+            language: "Học tiếng Nhật",
+            exam: "Thi kỹ năng đặc định",
+            health: "Khám sức khoẻ",
+            passport: "Hộ chiếu, visa",
+            flight: "Vé máy bay",
+            license: "Đổi bằng lái tại Nhật"
+          },
+          details: {
+            language: { amount: "15.000.000 ₫", payer: "Ứng viên" },
+            exam: { amount: "8.000 ¥", payer: "Ứng viên" },
+            health: { amount: "1.000.000 ₫", payer: "Ứng viên" },
+            passport: { amount: "3.000.000 ₫", payer: "Ứng viên" },
+            flight: { amount: "15.000.000 ₫", payer: "Theo từng đơn" },
+            license: { amount: "40.000 ¥", payer: "Theo từng đơn" }
+          },
+          values: { zero: "0 ₫", no: "Không áp dụng" },
+          legalNote: "Theo Thông tư 02/2024/TT-BLĐTBXH, mức trần giá dịch vụ theo hợp đồng môi giới áp dụng cho mọi ngành nghề tại thị trường Nhật Bản là 0 đồng.",
+          warning: "Nếu có ai yêu cầu bạn đóng phí môi giới, tiền cọc giữ suất hay phí xét duyệt nhanh để ứng tuyển vào ANDMORE, đó không phải chúng tôi. Hãy báo lại ngay."
+        },
+        requirements: {
+          marker: "点検 05 / MỤC 05",
+          title: "Điều kiện và giấy tờ",
+          conditions: {
+            1: "Giấy phép lái xe hạng C trở lên. Hạng B2 vẫn nộp được, chúng tôi tư vấn lộ trình nâng hạng.",
+            2: "Tiếng Nhật đạt JLPT N4 hoặc JFT-Basic",
+            3: "Đỗ kỳ thi kỹ năng đặc định ngành vận tải ô tô, phân khúc xe tải",
+            4: "Giấy khám sức khoẻ theo mẫu"
+          },
+          note: "Bằng lái Việt Nam không dùng trực tiếp được ở Nhật. Sau khi sang, bạn làm thủ tục đổi bằng, xem bước 07 trong lộ trình.",
+          documentsTitle: "Giấy tờ",
+          documents: "CV / Sơ yếu lý lịch · Bằng lái (2 mặt) · Chứng chỉ JLPT N4 hoặc JFT-Basic · Kết quả thi kỹ năng · Ảnh chân dung · Hộ chiếu (nếu đã có)"
+        },
+        roadmap: {
+          marker: "点検 06 / MỤC 06",
+          title: "Lộ trình 8 bước",
+          durationLabel: "Thời lượng dự kiến",
+          ownerLabel: "Ai làm gì",
+          steps: {
+            1: { name: "Nộp hồ sơ", duration: "1 đến 3 ngày", owner: "Ứng viên nộp, Go Media kiểm tra" },
+            2: { name: "Phỏng vấn online", duration: "Trong 1 tuần", owner: "ANDMORE phỏng vấn, Go Media hỗ trợ phiên dịch" },
+            3: { name: "Nhận thông báo trúng tuyển", duration: "3 đến 7 ngày", owner: "ANDMORE thông báo kết quả" },
+            4: { name: "Học tiếng Nhật và luyện thi kỹ năng", duration: "3 đến 6 tháng", owner: "Ứng viên học, đơn vị đào tạo hỗ trợ" },
+            5: { name: "Thi kỹ năng đặc định vận tải ô tô", duration: "Theo lịch thi", owner: "Ứng viên dự thi, Go Media hướng dẫn hồ sơ" },
+            6: { name: "Xin tư cách lưu trú", duration: "1 đến 3 tháng", owner: "ANDMORE và đơn vị hỗ trợ tại Nhật thực hiện" },
+            7: {
+              name: "Sang Nhật và đổi bằng lái",
+              duration: "Tối đa 6 tháng",
+              owner: "ANDMORE bố trí đào tạo và hỗ trợ đổi bằng",
+              note: "Giai đoạn đổi bằng lái dùng tư cách lưu trú \"hoạt động đặc định\". Với tài xế xe tải, thời hạn là 6 tháng và không được gia hạn. Trong thời gian này bạn chưa được lái xe, nhưng làm được các việc liên quan như vệ sinh xe, hỗ trợ xếp hàng. Thời gian này không tính vào 5 năm của Kỹ năng đặc định số 1."
+            },
+            8: { name: "Bắt đầu làm việc", duration: "Sau khi đủ điều kiện", owner: "Ứng viên nhận việc, ANDMORE quản lý và hỗ trợ" }
+          },
+          total: "Thời gian dự kiến khoảng 6 đến 12 tháng, tùy năng lực tiếng Nhật, lịch thi và hồ sơ lưu trú."
+        },
+        benefits: {
+          marker: "点検 07 / MỤC 07",
+          title: "Chỗ ở và phúc lợi",
+          items: {
+            housing: { title: "Ký túc xá", body: "Công ty tiếp nhận hỗ trợ thu xếp. Chi phí khoảng 25.000 đến 40.000 ¥/tháng, trừ vào lương." },
+            insurance: { title: "Bảo hiểm", body: "Tham gia đầy đủ bảo hiểm theo luật Nhật Bản" },
+            language: { title: "Hỗ trợ tiếng", body: "Hướng dẫn tiếng Nhật trong công việc và thuật ngữ giao nhận trước khi nhận tuyến." },
+            transport: { title: "Đi lại", body: "Hỗ trợ hướng dẫn tuyến đi làm và phương tiện phù hợp với nơi ở thực tế." }
+          },
+          familyNote: "Kỹ năng đặc định số 1 không cho phép mang theo gia đình. Thời hạn lưu trú tối đa cộng dồn là 5 năm. Chúng tôi nói rõ điều này ngay từ đầu để bạn không phải biết muộn."
+        },
+        company: {
+          marker: "点検 08 / MỤC 08",
+          title: "Về ANDMORE, và cách bạn tự kiểm tra chúng tôi",
+          legal: "ANDMORE Co., Ltd. · Đại diện: Eisaku Kamiya, Representative Director · Trụ sở: 2-7-4 Aomi, Koto-ku, Tokyo · Mã số pháp nhân: 1010001234567",
+          checks: {
+            1: "Kiểm tra thông tin và kênh liên hệ chính thức của đơn vị thực hiện tại Go Media Vietnam",
+            2: "Gọi trực tiếp số hotline dưới đây trong giờ làm việc và hỏi bất cứ điều gì",
+            3: "Xem khu logistics cảng Osaka trên Google Maps"
+          },
+          team: "Điều phối viên phụ trách: Bộ phận dự án Việt Nam, hỗ trợ qua hotline và Zalo trong giờ làm việc.",
+          mapAction: "Xem vị trí vệ tinh tại cảng Osaka"
+        },
+        stories: {
+          title: "Câu chuyện người đi trước",
+          initials: "NA",
+          name: "Nguyễn Minh An",
+          meta: "29 tuổi · Đà Nẵng · Hồ sơ tài xế xe tải",
+          badge: "Nội dung mẫu",
+          quote: "Tôi muốn biết rõ mình cần chuẩn bị gì, mất bao lâu và phải chi khoản nào trước khi quyết định. Lộ trình từng bước giúp tôi dễ trao đổi với gia đình hơn.",
+          facts: {
+            licenseLabel: "Bằng lái",
+            license: "Hạng C",
+            japaneseLabel: "Tiếng Nhật",
+            japanese: "Đang học N4",
+            stageLabel: "Giai đoạn hồ sơ",
+            stage: "Chuẩn bị phỏng vấn online"
+          },
+          disclaimer: "Đây là nội dung mẫu dùng để minh họa bố cục bản demo. Tên, hành trình và lời chia sẻ không phải chứng thực của ứng viên thật."
+        },
+        faq: {
+          title: "Câu hỏi thường gặp",
+          questions: {
+            1: "Tôi phải trả phí môi giới bao nhiêu?",
+            2: "Bằng lái Việt Nam của tôi dùng được ở Nhật không?",
+            3: "Tôi chưa có N4, có nộp hồ sơ được không?",
+            4: "Tôi được mang vợ con sang Nhật không?",
+            5: "Tổng thời gian từ nộp hồ sơ đến sang Nhật là bao lâu?",
+            6: "Nếu tôi không đỗ kỳ thi kỹ năng thì sao?",
+            7: "Tôi làm được tối đa bao nhiêu năm ở Nhật?",
+            8: "Dữ liệu và giấy tờ tôi gửi lên được dùng thế nào?",
+            9: "Tôi đã ở Nhật rồi, chuyển sang diện này được không?",
+            10: "Làm sao tôi biết ANDMORE là công ty thật?"
+          },
+          answers: {
+            1: "Phí môi giới là 0 đồng. Các khoản học, thi, khám sức khỏe, hồ sơ và vé máy bay phải được liệt kê riêng, có bên chi trả rõ ràng trước khi bạn quyết định.",
+            2: "Không dùng trực tiếp được. Sau khi sang Nhật, bạn cần hoàn thành thủ tục chuyển đổi giấy phép lái xe nước ngoài trước khi lái xe làm việc.",
+            3: "Có. Bạn có thể nộp hồ sơ để được đánh giá trước, sau đó hoàn thành JLPT N4 hoặc JFT-Basic theo lộ trình phù hợp.",
+            4: "Không. Kỹ năng đặc định số 1 hiện không cho phép bảo lãnh vợ, chồng hoặc con sang cư trú cùng.",
+            5: "Khoảng 6 đến 12 tháng. Thời gian phụ thuộc trình độ tiếng Nhật, lịch thi, hồ sơ và xét duyệt tư cách lưu trú.",
+            6: "Bạn có thể tiếp tục học và đăng ký kỳ thi tiếp theo. Bộ phận hỗ trợ sẽ rà lại phần còn thiếu thay vì kết thúc hồ sơ ngay.",
+            7: "Tư cách Kỹ năng đặc định số 1 có thời hạn lưu trú cộng dồn tối đa 5 năm.",
+            8: "Dữ liệu chỉ dùng cho tuyển dụng, đánh giá điều kiện và liên hệ hồ sơ. Bản chính thức cần công bố đầy đủ nơi lưu, người tiếp cận và quy trình yêu cầu xóa dữ liệu.",
+            9: "Có thể xem xét tùy tư cách lưu trú hiện tại, lịch sử cư trú và điều kiện nghề. Hãy gửi thông tin để được kiểm tra từng trường hợp.",
+            10: "Bạn có thể kiểm tra thông tin pháp nhân, gọi kênh chính thức, xác nhận qua Go Media Vietnam và yêu cầu buổi trao đổi trực tiếp trước khi cung cấp giấy tờ."
+          }
+        },
+        application: {
+          title: "Ứng tuyển",
+          progressLabel: "Tiến trình ứng tuyển",
+          zaloUnavailable: "Zalo OA đang chờ xác nhận",
+          common: {
+            back: "Quay lại",
+            required: "Bắt buộc",
+            optional: "Có thể nộp sau"
+          },
+          step1: {
+            title: "Bước 1/3 · Thông tin cơ bản",
+            fullName: "Họ và tên",
+            fullNameExample: "Nguyễn Văn An",
+            birthYear: "Năm sinh",
+            phone: "Số điện thoại (dùng Zalo)",
+            phoneExample: "+84 912 345 678",
+            province: "Tỉnh / Thành phố",
+            occupation: "Nhóm nghề bạn quan tâm",
+            license: "Bằng lái hiện có",
+            next: "Xem kết quả kiểm tra điều kiện",
+            selectOption: "Chọn một mục",
+            provincePending: "Đà Nẵng"
+          },
+          occupations: {
+            truck: "Tài xế xe tải",
+            engineer: "Kỹ sư IT / điện / cơ khí / CAD / thiết kế",
+            interpreter: "Phiên dịch Nhật Việt",
+            coordinator: "Điều phối viên nhân sự"
+          },
+          licenses: {
+            none: "Không có",
+            b2: "B2",
+            c: "C",
+            de: "D, E",
+            other: "Khác"
+          },
+          step2: {
+            title: "Bước 2/3 · Giấy tờ",
+            skipNote: "Chưa có sẵn giấy tờ? Bỏ qua bước này, chúng tôi gửi link để bạn tải lên sau.",
+            camera: "Chụp bằng camera",
+            choose: "Chọn tệp từ máy",
+            continue: "Tiếp tục, có thể bỏ qua giấy tờ",
+            remove: "Xóa tệp",
+            fileCount: "{{count}} / 5 tệp",
+            fileTooLarge: "Tệp lớn hơn 10MB. Hãy chụp lại hoặc gửi ảnh nhỏ hơn.",
+            fileType: "Định dạng tệp này chưa được hỗ trợ. Hãy chọn PDF, JPG, JPEG, PNG, HEIC, HEIF hoặc WEBP.",
+            fileLimit: "Mỗi mục nhận tối đa 5 tệp. Hãy xóa một tệp trước khi chọn thêm.",
+            totalLimit: "Tổng dung lượng vượt 30MB. Hãy xóa bớt tệp hoặc gửi ảnh nhỏ hơn.",
+            uploadDemo: "Tệp chỉ được xem trước trên thiết bị này. Bản demo không tải dữ liệu lên máy chủ."
+          },
+          documents: {
+            cv: "CV / Sơ yếu lý lịch",
+            licence: "Giấy phép lái xe (2 mặt)",
+            licenceNote: "Hạng C trở lên. Hạng B vẫn nộp được, chúng tôi sẽ tư vấn lộ trình nâng hạng.",
+            jpCert: "Chứng chỉ JLPT N4 hoặc JFT-Basic",
+            skillExam: "Kết quả thi kỹ năng đặc định vận tải ô tô",
+            photo: "Ảnh chân dung",
+            passport: "Hộ chiếu (nếu đã có)"
+          },
+          step3: {
+            title: "Bước 3/3 · Xác nhận",
+            consent1: "Tôi đồng ý cho ANDMORE xử lý dữ liệu cá nhân của tôi cho mục đích tuyển dụng.",
+            consent2: "Tôi đồng ý cho dữ liệu cá nhân của tôi được chuyển sang Nhật Bản cho ANDMORE Co., Ltd.",
+            consent3: "Tôi muốn nhận thông tin việc làm mới phù hợp. (tùy chọn)",
+            retention: "Dữ liệu của bạn được lưu trong {{n}} tháng. Bạn có thể rút lại đồng ý bất cứ lúc nào bằng cách {{cách thức}}.",
+            schedule: "Đặt lịch phỏng vấn online (tùy chọn)",
+            scheduleTime: "Ngày và giờ theo giờ Việt Nam",
+            dualTime: "{{vn}} giờ Việt Nam · {{jp}} giờ Nhật Bản",
+            submit: "Gửi hồ sơ",
+            submitting: "Đang gửi hồ sơ"
+          },
+          validation: {
+            required: "Vui lòng hoàn thành mục này để tiếp tục.",
+            fullName: "Vui lòng nhập họ và tên trong một ô, có thể dùng đầy đủ dấu tiếng Việt.",
+            phone: "Số điện thoại chưa đúng định dạng. Hãy nhập số Việt Nam bắt đầu bằng 0 hoặc +84.",
+            consent: "Bạn cần đánh dấu ô đồng ý bắt buộc này trước khi gửi."
+          },
+          success: {
+            title: "Đã nhận hồ sơ của bạn",
+            codeLabel: "Mã hồ sơ của bạn",
+            copy: "Sao chép mã hồ sơ",
+            copied: "Đã sao chép mã hồ sơ",
+            next: "Bộ phận dự án Việt Nam sẽ liên hệ qua Zalo trong vòng 24 giờ làm việc.",
+            zalo: "Thêm Zalo để nhận cập nhật",
+            status: "Tra cứu trạng thái hồ sơ"
+          }
+        },
+        sticky: {
+          label: "Hành động nhanh",
+          eligibility: "Kiểm tra điều kiện",
+          zalo: "Zalo",
+          phone: "Gọi"
+        },
+        footer: {
+          navigationLabel: "Điều hướng cuối trang",
+          jobs: {
+            title: "Nhóm nghề",
+            truck: "Tài xế xe tải",
+            engineer: "Kỹ sư",
+            interpreter: "Phiên dịch Nhật Việt",
+            coordinator: "Điều phối viên nhân sự"
+          },
+          tools: {
+            title: "Công cụ",
+            eligibility: "Kiểm tra điều kiện",
+            salary: "Tính lương",
+            status: "Tra cứu hồ sơ",
+            roadmap: "Lộ trình",
+            costs: "Chi phí"
+          },
+          about: {
+            title: "Về ANDMORE",
+            introduction: "Giới thiệu",
+            stories: "Câu chuyện",
+            news: "Tin tức",
+            contact: "Liên hệ"
+          },
+          legal: {
+            title: "Pháp lý",
+            privacy: "Chính sách quyền riêng tư",
+            data: "Thông báo xử lý dữ liệu cá nhân",
+            terms: "Điều khoản",
+            sitemap: "Sơ đồ trang"
+          },
+          warning: {
+            title: "Cảnh báo mạo danh",
+            body: "Nếu có ai yêu cầu bạn đóng phí môi giới, tiền cọc giữ suất hay phí xét duyệt nhanh để ứng tuyển vào ANDMORE, đó không phải chúng tôi. Hãy báo lại ngay. ",
+            link: "Xác minh kênh dự án tại Go Media Vietnam"
+          },
+          company: "ANDMORE Co., Ltd. · Đại diện: Eisaku Kamiya, Representative Director",
+          address: "Văn phòng dự án: Đà Nẵng, Việt Nam",
+          registration: "Mã số pháp nhân Nhật Bản: 1010001234567",
+          copyright: "© ANDMORE Co., Ltd.",
+          demoBy: "Demo by Gotek"
+        }
+      },
+      ja: {
+        common: {
+          brand: "ANDMORE",
+          pageTitle: "ANDMORE Recruit",
+          pageDescription: "ANDMORE株式会社によるベトナム人材の直接採用情報です。",
+          placeholder: "入力してください",
+          skipToContent: "メインコンテンツへ移動",
+          languageLabel: "言語を選択",
+          languageVi: "Tiếng Việt",
+          languageJa: "日本語"
+        },
+        header: {
+          call: "電話で相談",
+          callUnavailable: "デモ用電話番号",
+          sitemapLabel: "メインナビゲーション",
+          jobs: "求人情報",
+          conditions: "応募条件",
+          income: "給与",
+          process: "選考の流れ",
+          information: "ご案内",
+          costs: "費用",
+          company: "ANDMOREについて",
+          faq: "よくある質問",
+          apply: "応募する"
+        },
+        hero: {
+          eyebrow: "特定技能1号｜自動車運送業（トラック区分）",
+          title: "日本でトラックドライバーとして働く。条件・費用・期間を、先にすべて開示します。",
+          subtitle: "日本法人 ANDMORE株式会社による直接採用です。仲介業者を介しません。",
+          primaryAction: "応募資格をチェックする（1分）",
+          secondaryAction: "現在の求人を見る",
+          imageCaption: "※イメージ写真"
+        },
+        trust: {
+          label: "信頼のポイント",
+          direct: "直接採用。仲介業者を介しません。",
+          costs: "費用は項目ごとに全額を公開します。",
+          status: "応募状況はいつでもご確認いただけます。"
+        },
+        eligibility: {
+          marker: "点検 01 / MỤC 01",
+          title: "応募資格セルフチェック",
+          subtitle: "全7項目・連絡先の入力は不要です",
+          questions: {
+            age: "年齢",
+            license: "保有運転免許",
+            experience: "トラック運転の経験年数",
+            japanese: "日本語能力",
+            skillExam: "自動車運送業分野 特定技能1号評価試験の受験状況",
+            health: "健康状態・視力",
+            residence: "過去の日本在留歴"
+          },
+          options: {
+            age: { under20: "20歳未満", "20to39": "20～39歳", "40plus": "40歳以上" },
+            license: { none: "なし", b2: "B2", c: "C", de: "D、E" },
+            experience: { none: "経験なし", under1: "1年未満", "1to2": "1～2年", "3plus": "3年以上" },
+            japanese: { none: "未学習", n5: "N5", n4: "N4", n3: "N3以上", jft: "JFT-Basic 合格" },
+            skillExam: { notTaken: "未受験", waiting: "結果待ち", passed: "合格" },
+            health: { ready: "所定様式の健康診断書を提出できる", needsExam: "所定様式の健康診断は未受診", concern: "相談が必要な健康上の懸念がある" },
+            residence: { never: "在留歴なし", compliant: "在留歴あり、在留上の問題なし", needsReview: "在留歴について確認が必要" }
+          },
+          progress: "{{count}} / 7",
+          results: {
+            eligible: { stamp: "確認済", message: "このまま応募いただけます。" },
+            needsReview: { stamp: "要確認", message: "{{n}}項目の確認が必要です。補完までの目安は約{{n}}か月です。" },
+            consultation: { stamp: "要相談", message: "現在のご状況ではトラック運転者の要件を満たしません。他の職種をご覧ください。" }
+          }
+        },
+        workday: {
+          marker: "点検 02 / MỤC 02",
+          title: "一日の仕事の流れ（省略なし）",
+          times: { 1: "05:30", 2: "06:30", 3: "07:00", 4: "14:00", 5: "17:00" },
+          steps: {
+            1: "運行前点検",
+            2: "荷積み",
+            3: "運行",
+            4: "荷卸し",
+            5: "帰庫・運行日報の記入"
+          },
+          difficulty: {
+            title: "この仕事の大変な点",
+            1: "早朝勤務があり、勤務時間は運行状況により変動します",
+            2: "運転のみでなく、手作業による荷役業務があります",
+            3: "日本の運行前点検は項目が細かく、省略は認められません",
+            4: "荷主とのやり取りで実際に日本語を使用します"
+          },
+          imageCaption: "日本の車両点検環境を示すイメージ写真"
+        },
+        income: {
+          marker: "点検 03 / MỤC 03",
+          title: "手取り額の内訳",
+          rows: {
+            base: "基本給",
+            overtime: "時間外手当（月{{n}}時間）",
+            allowance: "諸手当（固定）",
+            gross: "総支給額",
+            insurance: "社会保険料",
+            tax: "所得税・住民税",
+            housing: "住居費",
+            utilities: "光熱費",
+            net: "手取り額",
+            equivalent: "ベトナムドン換算"
+          },
+          calculator: {
+            title: "ご自身の条件で計算する",
+            description: "初期値は日本の採用市場を想定したデモ例です。数値を変更して試算できます。",
+            base: "基本給、¥",
+            hours: "月間時間外労働、時間",
+            overtimeRate: "時間外手当の時給、¥",
+            allowance: "諸手当（固定）、¥",
+            insurance: "社会保険料、¥",
+            tax: "所得税・住民税、¥",
+            housing: "住居費、¥",
+            utilities: "光熱費、¥",
+            exchangeRate: "1円あたりのVND参考レート",
+            placeholder: "金額を入力"
+          },
+          notes: {
+            1: "収入から各控除項目を差し引き、手取り額を確認できる計算表です。",
+            2: "日本の法令では、法定時間外労働には25%以上、法定休日労働には35%以上の割増賃金が支払われます。"
+          }
+        },
+        costs: {
+          marker: "点検 04 / MỤC 04",
+          title: "費用の負担区分",
+          columns: { item: "項目", amount: "金額", payer: "負担者" },
+          rows: {
+            brokerage: "仲介手数料",
+            language: "日本語学習費",
+            exam: "特定技能評価試験費",
+            health: "健康診断費",
+            passport: "パスポート・査証関連費",
+            flight: "渡航費",
+            license: "外国免許切替費"
+          },
+          details: {
+            language: { amount: "15,000,000ドン", payer: "応募者" },
+            exam: { amount: "8,000円", payer: "応募者" },
+            health: { amount: "1,000,000ドン", payer: "応募者" },
+            passport: { amount: "3,000,000ドン", payer: "応募者" },
+            flight: { amount: "15,000,000ドン", payer: "求人ごとに開示" },
+            license: { amount: "40,000円", payer: "求人ごとに開示" }
+          },
+          values: { zero: "0ドン", no: "該当なし" },
+          legalNote: "ベトナムの通達02/2024/TT-BLĐTBXHにより、日本市場に係る仲介契約のサービス料上限は全職種で0ドンと定められています。",
+          warning: "当社への応募に際して仲介手数料・内定保証金・優先審査料などの支払いを求められた場合、それは当社ではありません。速やかにご連絡ください。"
+        },
+        requirements: {
+          marker: "点検 05 / MỤC 05",
+          title: "応募資格と必要書類",
+          conditions: {
+            1: "運転免許（C級以上）。B2級の方もご応募いただけます。上位免許取得の流れをご案内します。",
+            2: "日本語能力：JLPT N4 または JFT-Basic 合格",
+            3: "自動車運送業分野 特定技能1号評価試験（トラック）合格",
+            4: "所定様式の健康診断書"
+          },
+          note: "ベトナムの運転免許で日本国内を運転することはできません。入国後に外国免許切替の手続きを行います（流れの07をご参照ください）。",
+          documentsTitle: "必要書類",
+          documents: "履歴書・運転免許証（表裏）・JLPT N4／JFT-Basic 合格証明書・技能評価試験結果・顔写真・パスポート（お持ちの場合）"
+        },
+        roadmap: {
+          marker: "点検 06 / MỤC 06",
+          title: "入社までの8ステップ",
+          durationLabel: "期間の目安",
+          ownerLabel: "担当と役割",
+          steps: {
+            1: { name: "応募・書類提出", duration: "1～3日", owner: "応募者が提出、Go Mediaが確認" },
+            2: { name: "オンライン面接", duration: "1週間以内", owner: "ANDMOREが面接、Go Mediaが通訳支援" },
+            3: { name: "内定", duration: "3～7日", owner: "ANDMOREが選考結果を通知" },
+            4: { name: "日本語学習・技能試験対策", duration: "3～6か月", owner: "応募者が学習、教育機関が支援" },
+            5: { name: "特定技能1号評価試験（トラック）", duration: "試験日程による", owner: "応募者が受験、Go Mediaが書類を案内" },
+            6: { name: "在留資格の申請", duration: "1～3か月", owner: "ANDMOREと日本側支援機関が申請" },
+            7: {
+              name: "入国・外国免許切替",
+              duration: "最長6か月",
+              owner: "ANDMOREが研修と免許切替を支援",
+              note: "外国免許切替の期間は在留資格「特定活動（特定自動車運送業準備）」で在留します。トラック運転者の在留期間は6か月で、更新はできません。この期間中は運転業務はできませんが、車両の清掃や積込み補助などの関連業務は可能です。なお、この期間は特定技能1号の通算5年には含まれません。"
+            },
+            8: { name: "就業開始", duration: "要件完了後", owner: "本人が入社、ANDMOREが就業を支援" }
+          },
+          total: "入社までの目安は約6～12か月です。日本語力、試験日程、在留資格審査により異なります。"
+        },
+        benefits: {
+          marker: "点検 07 / MỤC 07",
+          title: "住居と福利厚生",
+          items: {
+            housing: { title: "住居", body: "受入企業が住居手配を支援します。費用は月25,000～40,000円で、給与から控除されます。" },
+            insurance: { title: "社会保険", body: "日本の法令に基づく社会保険に加入します" },
+            language: { title: "日本語支援", body: "就業前に運送業務と荷受けで使う日本語を学べるよう支援します。" },
+            transport: { title: "通勤", body: "実際の住居に合わせて、通勤経路と利用可能な交通手段をご案内します。" }
+          },
+          familyNote: "特定技能1号は家族帯同が認められません。在留期間は通算最長5年です。後になって知るのではなく、最初にお伝えします。"
+        },
+        company: {
+          marker: "点検 08 / MỤC 08",
+          title: "ANDMORE について｜当社をご確認いただく方法",
+          legal: "ANDMORE株式会社／代表取締役 神谷 英作／所在地 東京都江東区青海2-7-4／法人番号 1010001234567",
+          checks: {
+            1: "実施窓口の公式情報と連絡先をGo Media Vietnamで確認できます",
+            2: "下記の電話番号に営業時間内にお電話いただき、何でもご確認ください",
+            3: "Google Mapsで大阪港の物流エリアを確認できます"
+          },
+          team: "デモ担当：ベトナムプロジェクトチーム。営業時間内に電話とZaloで対応します。",
+          mapAction: "大阪港の衛星位置を表示"
+        },
+        stories: {
+          title: "先輩のストーリー",
+          initials: "NA",
+          name: "グエン・ミン・アン",
+          meta: "29歳・ダナン・トラック運転者応募",
+          badge: "サンプルコンテンツ",
+          quote: "決める前に、何を準備し、どのくらいの期間と費用が必要かを知りたいと思いました。手順が明確なので、家族にも説明しやすくなりました。",
+          facts: {
+            licenseLabel: "運転免許",
+            license: "C級",
+            japaneseLabel: "日本語",
+            japanese: "N4学習中",
+            stageLabel: "選考段階",
+            stage: "オンライン面接の準備中"
+          },
+          disclaimer: "本デモのレイアウトを示すためのサンプルコンテンツです。氏名、経歴、コメントは実在する応募者の証言ではありません。"
+        },
+        faq: {
+          title: "よくある質問",
+          questions: {
+            1: "仲介手数料はいくらかかりますか。",
+            2: "ベトナムの運転免許は日本でそのまま使えますか。",
+            3: "JLPT N4 をまだ取得していませんが、応募できますか。",
+            4: "家族を日本に連れて行けますか。",
+            5: "応募から入国までどのくらいかかりますか。",
+            6: "技能評価試験に合格できなかった場合はどうなりますか。",
+            7: "日本では最長何年間働けますか。",
+            8: "提出した個人情報や書類はどのように扱われますか。",
+            9: "現在日本に在留していますが、この在留資格に変更できますか。",
+            10: "ANDMORE が実在する企業であることをどう確認できますか。"
+          },
+          answers: {
+            1: "仲介手数料は0ドンです。学習、試験、健康診断、書類、渡航などの費用は、負担者を明記したうえで事前に個別開示します。",
+            2: "そのまま使用することはできません。入国後、運転業務を始める前に外国免許切替の手続きが必要です。",
+            3: "応募できます。事前審査後、JLPT N4 または JFT-Basic 合格に向けた準備計画をご案内します。",
+            4: "できません。特定技能1号では、配偶者やお子様の家族帯同は認められていません。",
+            5: "目安は6か月から12か月です。日本語力、試験日程、書類、在留資格審査により異なります。",
+            6: "学習を継続し、次回の試験に再挑戦できます。不足項目を確認し、準備方法をご案内します。",
+            7: "特定技能1号の在留期間は通算で最長5年です。",
+            8: "採用選考、資格確認、連絡の目的に限って利用します。本公開時には保管先、アクセス権、削除依頼の方法を明記します。",
+            9: "現在の在留資格、在留履歴、職種要件により個別確認が必要です。状況をお知らせください。",
+            10: "法人情報、公式電話、Go Media Vietnamの案内窓口を確認し、書類提出前にオンラインまたは対面で説明を受けることができます。"
+          }
+        },
+        application: {
+          title: "応募フォーム",
+          progressLabel: "応募の進捗",
+          zaloUnavailable: "デモ用Zalo窓口",
+          common: {
+            back: "戻る",
+            required: "必須",
+            optional: "後から提出可"
+          },
+          step1: {
+            title: "STEP 1/3 基本情報",
+            fullName: "お名前",
+            fullNameExample: "NGUYEN VAN AN",
+            birthYear: "生年",
+            phone: "電話番号（Zalo 利用可能な番号）",
+            phoneExample: "+84 912 345 678",
+            province: "居住地（省・市）",
+            occupation: "ご希望の職種",
+            license: "保有運転免許",
+            next: "資格チェックの結果を見る",
+            selectOption: "選択してください",
+            provincePending: "ダナン"
+          },
+          occupations: {
+            truck: "トラック運転者",
+            engineer: "IT・電気・機械・CAD・設計エンジニア",
+            interpreter: "日越通訳",
+            coordinator: "人材コーディネーター"
+          },
+          licenses: {
+            none: "なし",
+            b2: "B2",
+            c: "C",
+            de: "D、E",
+            other: "その他"
+          },
+          step2: {
+            title: "STEP 2/3 書類",
+            skipNote: "お手元に書類がない場合はスキップしてください。後からアップロードできるリンクをお送りします。",
+            camera: "カメラで撮影",
+            choose: "ファイルを選択",
+            continue: "次へ、書類はスキップできます",
+            remove: "ファイルを削除",
+            fileCount: "{{count}} / 5",
+            fileTooLarge: "10MBを超えています。画像を小さくするか、撮影し直してください。",
+            fileType: "対応していない形式です。PDF、JPG、JPEG、PNG、HEIC、HEIF、WEBPを選択してください。",
+            fileLimit: "各項目は最大5ファイルです。追加する前に1つ削除してください。",
+            totalLimit: "合計30MBを超えています。ファイル数または容量を減らしてください。",
+            uploadDemo: "ファイルはこの端末上でのみプレビューされます。デモ版ではサーバーへアップロードしません。"
+          },
+          documents: {
+            cv: "履歴書",
+            licence: "運転免許証（表・裏）",
+            licenceNote: "C級以上が対象です。B級の方も応募でき、上位免許取得の流れをご案内します。",
+            jpCert: "JLPT N4／JFT-Basic 合格証明書",
+            skillExam: "自動車運送業分野 特定技能1号評価試験 結果",
+            photo: "顔写真",
+            passport: "パスポート（お持ちの場合）"
+          },
+          step3: {
+            title: "STEP 3/3 確認",
+            consent1: "採用選考の目的で個人情報を利用することに同意します。",
+            consent2: "個人データを日本の ANDMORE株式会社へ移転することに同意します。",
+            consent3: "新しい求人情報の受信を希望します。（任意）",
+            retention: "お客様のデータは{{n}}か月間保管されます。同意はいつでも{{方法}}により撤回いただけます。",
+            schedule: "オンライン面接のご予約（任意）",
+            scheduleTime: "ベトナム時間で日時を選択",
+            dualTime: "ベトナム時間 {{vn}}／日本時間 {{jp}}",
+            submit: "応募する",
+            submitting: "送信中"
+          },
+          validation: {
+            required: "この項目を入力または選択してください。",
+            fullName: "姓と名を1つの欄に入力してください。ベトナム語の声調記号も使用できます。",
+            phone: "電話番号の形式を確認してください。0または+84から始まるベトナムの番号を入力してください。",
+            consent: "送信するには、この必須同意項目にチェックしてください。"
+          },
+          success: {
+            title: "ご応募を受け付けました",
+            codeLabel: "受付番号",
+            copy: "受付番号をコピー",
+            copied: "受付番号をコピーしました",
+            next: "ベトナムプロジェクトチームより、24営業時間以内にZaloでご連絡します。",
+            zalo: "Zalo を追加して進捗を受け取る",
+            status: "応募状況を確認する"
+          }
+        },
+        sticky: {
+          label: "クイックアクション",
+          eligibility: "応募資格を確認",
+          zalo: "Zalo",
+          phone: "電話"
+        },
+        footer: {
+          navigationLabel: "フッターナビゲーション",
+          jobs: {
+            title: "求人情報",
+            truck: "トラック運転者",
+            engineer: "エンジニア",
+            interpreter: "日越通訳",
+            coordinator: "人材コーディネーター"
+          },
+          tools: {
+            title: "応募サポート",
+            eligibility: "応募資格チェック",
+            salary: "手取り試算",
+            status: "応募状況の確認",
+            roadmap: "入社までの流れ",
+            costs: "費用一覧"
+          },
+          about: {
+            title: "ANDMOREについて",
+            introduction: "会社紹介",
+            stories: "先輩のストーリー",
+            news: "お知らせ",
+            contact: "お問い合わせ"
+          },
+          legal: {
+            title: "法務情報",
+            privacy: "プライバシーポリシー",
+            data: "個人データの取扱い",
+            terms: "利用規約",
+            sitemap: "サイトマップ"
+          },
+          warning: {
+            title: "なりすましにご注意ください",
+            body: "当社への応募に際して仲介手数料・内定保証金・優先審査料などの支払いを求められた場合、それは当社ではありません。速やかにご連絡ください。",
+            link: "Go Media Vietnamで確認"
+          },
+          company: "ANDMORE株式会社／代表取締役 神谷 英作",
+          address: "ベトナム窓口：ダナン",
+          registration: "法人番号：1010001234567",
+          copyright: "© ANDMORE Co., Ltd.",
+          demoBy: "Demo by Gotek"
+        }
+      }
+    });
+
+    const marketConfig = {
+      market: "vn",
+      contact: { phone: "1900 0000", isDemo: true },
+      messenger: { primary: { type: "zalo", id: "demo-andmore", isDemo: true } },
+      formRules: {
+        nameFormat: "full_name_single_field",
+        allowDiacritics: true,
+        phoneCountryCode: "+84",
+        phonePattern: "^(0|\\+84)[35789][0-9]{8}$",
+        birthYearMin: 1940,
+        birthYearMax: new Date().getFullYear()
+      },
+      adminDivisions: [
+        { value: "da-nang-demo", labelKey: "application.step1.provincePending" }
+      ],
+      occupations: [
+        { value: "truck_driver", labelKey: "application.occupations.truck", icon: "truck" },
+        { value: "engineer", labelKey: "application.occupations.engineer", icon: "hard-hat" },
+        { value: "interpreter", labelKey: "application.occupations.interpreter", icon: "languages" },
+        { value: "coordinator", labelKey: "application.occupations.coordinator", icon: "users-round" }
+      ],
+      licenses: [
+        { value: "none", labelKey: "application.licenses.none" },
+        { value: "b2", labelKey: "application.licenses.b2" },
+        { value: "c", labelKey: "application.licenses.c" },
+        { value: "de", labelKey: "application.licenses.de" },
+        { value: "other", labelKey: "application.licenses.other" }
+      ],
+      documents: {
+        truck_driver: [
+          { key: "cv", required: true, labelKey: "application.documents.cv" },
+          { key: "licence", required: true, labelKey: "application.documents.licence", noteKey: "application.documents.licenceNote" },
+          { key: "jp_cert", required: false, labelKey: "application.documents.jpCert" },
+          { key: "skill_exam", required: false, labelKey: "application.documents.skillExam" },
+          { key: "photo", required: false, labelKey: "application.documents.photo" },
+          { key: "passport", required: false, labelKey: "application.documents.passport" }
+        ]
+      },
+      privacy: {
+        retentionMonths: "12",
+        withdrawalMethod: {
+          vi: "gửi yêu cầu qua biểu mẫu liên hệ của Go Media Vietnam",
+          ja: "Go Media Vietnamのお問い合わせフォームから申請すること"
+        }
+      },
+      upload: {
+        accept: ".pdf,.jpg,.jpeg,.png,.heic,.heif,.webp",
+        allowedExtensions: ["pdf", "jpg", "jpeg", "png", "heic", "heif", "webp"],
+        maxFileBytes: 10 * 1024 * 1024,
+        maxFilesPerDocument: 5,
+        maxTotalBytes: 30 * 1024 * 1024
+      }
+    };
+
+    const fontUrls = {
+      vi: "https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap",
+      ja: "https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=IBM+Plex+Mono:wght@500;600&family=Zen+Kaku+Gothic+New:wght@700;900&display=swap"
+    };
+
+    function getTranslation(locale, key) {
+      return key.split(".").reduce((value, part) => value && value[part], i18n[locale]);
+    }
+
+    const japaneseNoBreakPhrases = ["特定技能1号", "JFT-Basic", "自動車運送業", "外国免許切替"];
+
+    function setLocalizedText(element, value, locale) {
+      element.textContent = "";
+      if (locale !== "ja" || !japaneseNoBreakPhrases.some((phrase) => value.includes(phrase))) {
+        element.textContent = value;
+        return;
+      }
+
+      const phrasePattern = new RegExp(`(${japaneseNoBreakPhrases.join("|")})`, "g");
+      value.split(phrasePattern).filter(Boolean).forEach((part) => {
+        if (japaneseNoBreakPhrases.includes(part)) {
+          const span = document.createElement("span");
+          span.className = "nobr";
+          span.lang = "ja";
+          span.textContent = part;
+          element.append(span);
+        } else {
+          element.append(document.createTextNode(part));
+        }
+      });
+    }
+
+    function refreshIcons() {
+      if (window.lucide) {
+        window.lucide.createIcons();
+      }
+    }
+
+    function evaluateEligibility(answers) {
+      const consultationReasons = [];
+      const missingRequirements = [];
+
+      if (answers.license === "none") {
+        consultationReasons.push("license");
+      } else if (answers.license === "b2") {
+        missingRequirements.push("license");
+      }
+
+      if (!["n4", "n3", "jft"].includes(answers.japanese)) {
+        missingRequirements.push("japanese");
+      }
+
+      if (answers.skillExam !== "passed") {
+        missingRequirements.push("skillExam");
+      }
+
+      if (answers.health === "concern") {
+        consultationReasons.push("health");
+      } else if (answers.health === "needsExam") {
+        missingRequirements.push("health");
+      }
+
+      if (answers.residence === "needsReview") {
+        consultationReasons.push("residence");
+      }
+
+      if (consultationReasons.length) {
+        return {
+          status: "consultation",
+          consultationReasons,
+          missingRequirements
+        };
+      }
+
+      if (missingRequirements.length) {
+        return {
+          status: "needs-review",
+          consultationReasons,
+          missingRequirements
+        };
+      }
+
+      return {
+        status: "eligible",
+        consultationReasons,
+        missingRequirements
+      };
+    }
+
+    function getEligibilityAnswers() {
+      const form = document.querySelector("[data-eligibility-form]");
+      if (!form) return {};
+      return Object.fromEntries(new FormData(form).entries());
+    }
+
+    function renderEligibilityResult(result, locale) {
+      const container = document.querySelector("[data-eligibility-result]");
+      const resultKey = result.status === "needs-review" ? "needsReview" : result.status;
+      const copy = getTranslation(locale, `eligibility.results.${resultKey}`);
+      const message = result.status === "needs-review"
+        ? copy.message.replaceAll("{{n}}", String(result.missingRequirements.length))
+        : copy.message;
+
+      const stamp = document.createElement("div");
+      stamp.className = "hanko";
+      stamp.lang = "ja";
+      stamp.textContent = copy.stamp;
+
+      const messageElement = document.createElement("p");
+      messageElement.className = "result-message";
+      messageElement.textContent = message;
+
+      container.replaceChildren(stamp, messageElement);
+      container.dataset.status = result.status;
+      container.hidden = false;
+      refreshIcons();
+    }
+
+    function updateEligibilityDisplay() {
+      const form = document.querySelector("[data-eligibility-form]");
+      if (!form) return;
+
+      const answers = getEligibilityAnswers();
+      const answeredCount = Object.keys(answers).length;
+      const locale = document.documentElement.lang;
+      const progress = document.querySelector("[data-eligibility-progress]");
+      const resultContainer = document.querySelector("[data-eligibility-result]");
+
+      progress.textContent = getTranslation(locale, "eligibility.progress").replace("{{count}}", String(answeredCount));
+
+      if (answeredCount < 7) {
+        resultContainer.hidden = true;
+        resultContainer.replaceChildren();
+        delete resultContainer.dataset.status;
+        return;
+      }
+
+      renderEligibilityResult(evaluateEligibility(answers), locale);
+    }
+
+    function readCalculatorNumber(form, name) {
+      const value = form.elements[name].value.trim();
+      if (value === "") return null;
+      const number = Number(value);
+      return Number.isFinite(number) && number >= 0 ? number : null;
+    }
+
+    function formatMoney(value, currency, locale) {
+      if (value === null || !Number.isFinite(value)) {
+        return `${locale === "ja" ? "未入力" : "Chưa nhập"} ${currency}`;
+      }
+
+      const localeCode = locale === "ja" ? "ja-JP" : "vi-VN";
+      return `${new Intl.NumberFormat(localeCode, { maximumFractionDigits: 0 }).format(Math.round(value))} ${currency}`;
+    }
+
+    function updateSalaryCalculator() {
+      const form = document.querySelector("[data-salary-calculator]");
+      if (!form) return;
+
+      const locale = document.documentElement.lang;
+      const values = {
+        base: readCalculatorNumber(form, "base"),
+        hours: readCalculatorNumber(form, "hours"),
+        overtimeRate: readCalculatorNumber(form, "overtimeRate"),
+        allowance: readCalculatorNumber(form, "allowance"),
+        insurance: readCalculatorNumber(form, "insurance"),
+        tax: readCalculatorNumber(form, "tax"),
+        housing: readCalculatorNumber(form, "housing"),
+        utilities: readCalculatorNumber(form, "utilities"),
+        exchangeRate: readCalculatorNumber(form, "exchangeRate")
+      };
+
+      const overtime = values.hours !== null && values.overtimeRate !== null
+        ? values.hours * values.overtimeRate
+        : null;
+      const gross = [values.base, overtime, values.allowance].every((value) => value !== null)
+        ? values.base + overtime + values.allowance
+        : null;
+      const deductions = [values.insurance, values.tax, values.housing, values.utilities];
+      const net = gross !== null && deductions.every((value) => value !== null)
+        ? gross - deductions.reduce((sum, value) => sum + value, 0)
+        : null;
+      const equivalent = net !== null && values.exchangeRate !== null
+        ? net * values.exchangeRate
+        : null;
+      const outputs = {
+        base: values.base,
+        overtime,
+        allowance: values.allowance,
+        gross,
+        insurance: values.insurance,
+        tax: values.tax,
+        housing: values.housing,
+        utilities: values.utilities,
+        net,
+        equivalent
+      };
+
+      Object.entries(outputs).forEach(([key, value]) => {
+        const currency = key === "equivalent" ? "₫" : "¥";
+        document.querySelector(`[data-salary-output="${key}"]`).textContent = formatMoney(value, currency, locale);
+      });
+
+      const overtimeHours = values.hours === null ? (locale === "ja" ? "未入力" : "chưa nhập") : new Intl.NumberFormat(locale === "ja" ? "ja-JP" : "vi-VN").format(values.hours);
+      document.querySelector("[data-salary-overtime-label]").textContent = getTranslation(locale, "income.rows.overtime").replace("{{n}}", overtimeHours);
+    }
+
+    function setupSalaryReveal() {
+      const table = document.querySelector("[data-salary-table]");
+      if (!table) return;
+
+      const rows = [...table.querySelectorAll(".salary-row")];
+      const reveal = () => {
+        rows.forEach((row, index) => {
+          row.style.setProperty("--row-delay", index < 6 ? `${index * 40}ms` : "0ms");
+          row.classList.add("is-visible");
+        });
+      };
+
+      table.classList.add("motion-ready");
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) {
+        reveal();
+        return;
+      }
+
+      const observer = new IntersectionObserver((entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          reveal();
+          observer.disconnect();
+        }
+      }, { threshold: 0.15 });
+      observer.observe(table);
+    }
+
+    const applicationForm = document.querySelector("[data-application-form]");
+    const uploadedFiles = new Map();
+    let currentFormStep = 1;
+    let isSubmitting = false;
+
+    function createSelectOption(value, text, selected = false) {
+      const option = document.createElement("option");
+      option.value = value;
+      option.textContent = text;
+      option.selected = selected;
+      return option;
+    }
+
+    function renderApplicationChoices(locale) {
+      const birthSelect = document.querySelector("[data-birth-year-select]");
+      const provinceSelect = document.querySelector("[data-province-select]");
+      const occupationContainer = document.querySelector("[data-occupation-options]");
+      const licenseContainer = document.querySelector("[data-license-options]");
+      const selectedBirth = birthSelect.value;
+      const selectedProvince = provinceSelect.value;
+      const selectedOccupation = applicationForm.elements.occupation?.value || "";
+      const selectedLicense = applicationForm.elements.appLicense?.value || "";
+      const selectLabel = getTranslation(locale, "application.step1.selectOption");
+
+      birthSelect.replaceChildren(createSelectOption("", selectLabel));
+      for (let year = marketConfig.formRules.birthYearMax; year >= marketConfig.formRules.birthYearMin; year -= 1) {
+        birthSelect.append(createSelectOption(String(year), String(year), String(year) === selectedBirth));
+      }
+
+      provinceSelect.replaceChildren(createSelectOption("", selectLabel));
+      marketConfig.adminDivisions.forEach((division) => {
+        provinceSelect.append(createSelectOption(division.value, getTranslation(locale, division.labelKey), division.value === selectedProvince));
+      });
+
+      occupationContainer.replaceChildren();
+      marketConfig.occupations.forEach((occupation) => {
+        const label = document.createElement("label");
+        label.className = "choice-card";
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = "occupation";
+        input.value = occupation.value;
+        input.required = true;
+        input.checked = occupation.value === selectedOccupation;
+        const icon = document.createElement("i");
+        icon.className = "ic";
+        icon.dataset.lucide = occupation.icon;
+        icon.setAttribute("aria-hidden", "true");
+        const text = document.createElement("span");
+        text.textContent = getTranslation(locale, occupation.labelKey);
+        label.append(input, icon, text);
+        occupationContainer.append(label);
+      });
+
+      licenseContainer.replaceChildren();
+      marketConfig.licenses.forEach((license) => {
+        const label = document.createElement("label");
+        label.className = "choice-card";
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = "appLicense";
+        input.value = license.value;
+        input.required = true;
+        input.checked = license.value === selectedLicense;
+        const text = document.createElement("span");
+        text.textContent = getTranslation(locale, license.labelKey);
+        label.append(input, text);
+        licenseContainer.append(label);
+      });
+    }
+
+    function getSelectedOccupation() {
+      return applicationForm.elements.occupation?.value || "truck_driver";
+    }
+
+    function getTotalUploadBytes() {
+      return [...uploadedFiles.values()].flat().reduce((sum, entry) => sum + entry.file.size, 0);
+    }
+
+    function formatFileSize(bytes) {
+      if (bytes < 1024 * 1024) return `${Math.max(1, Math.round(bytes / 1024))} KB`;
+      return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+    }
+
+    function renderFileList(documentKey, locale) {
+      const list = document.querySelector(`[data-file-list="${documentKey}"]`);
+      if (!list) return;
+      list.replaceChildren();
+      const entries = uploadedFiles.get(documentKey) || [];
+      entries.forEach((entry, index) => {
+        const item = document.createElement("li");
+        item.className = "file-item";
+        const preview = document.createElement("span");
+        preview.className = "file-preview";
+        if (entry.url) {
+          const image = document.createElement("img");
+          image.src = entry.url;
+          image.alt = "";
+          preview.append(image);
+        } else {
+          const icon = document.createElement("i");
+          icon.className = "ic";
+          icon.dataset.lucide = "paperclip";
+          icon.setAttribute("aria-hidden", "true");
+          preview.append(icon);
+        }
+        const details = document.createElement("div");
+        const name = document.createElement("div");
+        name.className = "file-name";
+        name.textContent = entry.file.name;
+        const size = document.createElement("div");
+        size.className = "file-size";
+        size.textContent = formatFileSize(entry.file.size);
+        const progress = document.createElement("progress");
+        progress.className = "file-progress";
+        progress.max = 100;
+        progress.value = 100;
+        details.append(name, size, progress);
+        const remove = document.createElement("button");
+        remove.type = "button";
+        remove.className = "icon-button";
+        remove.setAttribute("aria-label", getTranslation(locale, "application.step2.remove"));
+        remove.dataset.removeDocument = documentKey;
+        remove.dataset.removeIndex = String(index);
+        const removeIcon = document.createElement("i");
+        removeIcon.className = "ic";
+        removeIcon.dataset.lucide = "trash-2";
+        removeIcon.setAttribute("aria-hidden", "true");
+        remove.append(removeIcon);
+        item.append(preview, details, remove);
+        list.append(item);
+      });
+      refreshIcons();
+    }
+
+    function renderDocumentUploads(locale) {
+      const container = document.querySelector("[data-document-upload-list]");
+      const occupation = getSelectedOccupation();
+      const documents = marketConfig.documents[occupation] || [];
+      container.replaceChildren();
+
+      documents.forEach((documentConfig) => {
+        const card = document.createElement("section");
+        card.className = "upload-card";
+        const title = document.createElement("h4");
+        title.className = "upload-card-title";
+        title.textContent = getTranslation(locale, documentConfig.labelKey);
+        const status = document.createElement("p");
+        status.className = "field-help";
+        status.textContent = getTranslation(locale, documentConfig.required ? "application.common.required" : "application.common.optional");
+        card.append(title, status);
+        if (documentConfig.noteKey) {
+          const note = document.createElement("p");
+          note.className = "field-help";
+          note.textContent = getTranslation(locale, documentConfig.noteKey);
+          card.append(note);
+        }
+
+        const actions = document.createElement("div");
+        actions.className = "upload-actions";
+        const chooseId = `file-${documentConfig.key}`;
+        const cameraId = `camera-${documentConfig.key}`;
+        const choose = document.createElement("input");
+        choose.className = "file-input";
+        choose.id = chooseId;
+        choose.type = "file";
+        choose.multiple = true;
+        choose.accept = marketConfig.upload.accept;
+        choose.dataset.documentKey = documentConfig.key;
+        const chooseLabel = document.createElement("label");
+        chooseLabel.className = "form-button";
+        chooseLabel.htmlFor = chooseId;
+        chooseLabel.textContent = getTranslation(locale, "application.step2.choose");
+        const camera = document.createElement("input");
+        camera.className = "file-input";
+        camera.id = cameraId;
+        camera.type = "file";
+        camera.accept = "image/*";
+        camera.setAttribute("capture", "environment");
+        camera.dataset.documentKey = documentConfig.key;
+        const cameraLabel = document.createElement("label");
+        cameraLabel.className = "form-button";
+        cameraLabel.htmlFor = cameraId;
+        cameraLabel.textContent = getTranslation(locale, "application.step2.camera");
+        actions.append(choose, chooseLabel, camera, cameraLabel);
+        const fileList = document.createElement("ul");
+        fileList.className = "file-list";
+        fileList.dataset.fileList = documentConfig.key;
+        card.append(actions, fileList);
+        container.append(card);
+      });
+
+      const demoNote = document.createElement("p");
+      demoNote.className = "field-help";
+      demoNote.textContent = getTranslation(locale, "application.step2.uploadDemo");
+      container.append(demoNote);
+      [...uploadedFiles.keys()].forEach((key) => renderFileList(key, locale));
+    }
+
+    function showUploadError(key) {
+      document.querySelector("[data-upload-error]").textContent = key ? getTranslation(document.documentElement.lang, key) : "";
+    }
+
+    function addFiles(documentKey, fileList) {
+      const locale = document.documentElement.lang;
+      const current = uploadedFiles.get(documentKey) || [];
+      const nextFiles = [...fileList];
+      if (current.length + nextFiles.length > marketConfig.upload.maxFilesPerDocument) {
+        showUploadError("application.step2.fileLimit");
+        return;
+      }
+      for (const file of nextFiles) {
+        const extension = file.name.split(".").pop().toLowerCase();
+        if (!marketConfig.upload.allowedExtensions.includes(extension)) {
+          showUploadError("application.step2.fileType");
+          return;
+        }
+        if (file.size > marketConfig.upload.maxFileBytes) {
+          showUploadError("application.step2.fileTooLarge");
+          return;
+        }
+      }
+      const addedBytes = nextFiles.reduce((sum, file) => sum + file.size, 0);
+      if (getTotalUploadBytes() + addedBytes > marketConfig.upload.maxTotalBytes) {
+        showUploadError("application.step2.totalLimit");
+        return;
+      }
+      const entries = nextFiles.map((file) => ({
+        file,
+        url: file.type.startsWith("image/") && !/\.hei[cf]$/i.test(file.name) ? URL.createObjectURL(file) : ""
+      }));
+      uploadedFiles.set(documentKey, [...current, ...entries]);
+      showUploadError("");
+      renderFileList(documentKey, locale);
+    }
+
+    function setFieldError(name, message) {
+      const error = document.querySelector(`[data-error-for="${name}"]`);
+      const fields = applicationForm.querySelectorAll(`[name="${name}"]`);
+      if (error) error.textContent = message;
+      fields.forEach((field) => field.setAttribute("aria-invalid", message ? "true" : "false"));
+    }
+
+    function validateApplicationField(name) {
+      const locale = document.documentElement.lang;
+      const fields = [...applicationForm.querySelectorAll(`[name="${name}"]`)];
+      if (!fields.length) return true;
+      let valid = true;
+      let errorKey = "application.validation.required";
+
+      if (fields[0].type === "radio") {
+        valid = fields.some((field) => field.checked);
+      } else if (fields[0].type === "checkbox") {
+        valid = !fields[0].required || fields[0].checked;
+        errorKey = "application.validation.consent";
+      } else {
+        valid = fields[0].value.trim() !== "";
+      }
+
+      if (valid && name === "fullName") {
+        valid = fields[0].value.trim().length >= 2;
+        errorKey = "application.validation.fullName";
+      }
+      if (valid && name === "phone") {
+        const normalized = fields[0].value.replace(/[\s().-]/g, "");
+        valid = new RegExp(marketConfig.formRules.phonePattern).test(normalized);
+        errorKey = "application.validation.phone";
+      }
+      setFieldError(name, valid ? "" : getTranslation(locale, errorKey));
+      return valid;
+    }
+
+    function validateStep(step) {
+      const names = step === 1
+        ? ["fullName", "birthYear", "phone", "province", "occupation", "appLicense"]
+        : ["consentProcessing", "consentTransfer"];
+      const valid = names.map(validateApplicationField).every(Boolean);
+      if (!valid) {
+        const firstInvalid = applicationForm.querySelector('[aria-invalid="true"]');
+        firstInvalid?.focus();
+      }
+      return valid;
+    }
+
+    function showFormStep(step) {
+      currentFormStep = step;
+      document.querySelectorAll("[data-form-step]").forEach((panel) => {
+        panel.hidden = Number(panel.dataset.formStep) !== step;
+      });
+      document.querySelectorAll("[data-progress-step]").forEach((item) => {
+        item.classList.toggle("is-current", Number(item.dataset.progressStep) === step);
+      });
+      if (step === 2) renderDocumentUploads(document.documentElement.lang);
+      document.querySelector(`[data-form-step="${step}"]`)?.focus({ preventScroll: true });
+      saveApplicationDraft();
+    }
+
+    function saveApplicationDraft() {
+      const draft = {};
+      new FormData(applicationForm).forEach((value, key) => {
+        if (!(value instanceof File)) draft[key] = value;
+      });
+      draft.currentFormStep = currentFormStep;
+      try {
+        sessionStorage.setItem("andmore-application-draft", JSON.stringify(draft));
+      } catch (error) {}
+    }
+
+    function restoreApplicationDraft() {
+      let draft = null;
+      try {
+        draft = JSON.parse(sessionStorage.getItem("andmore-application-draft"));
+      } catch (error) {}
+      if (!draft) return;
+      Object.entries(draft).forEach(([name, value]) => {
+        if (name === "currentFormStep") return;
+        const fields = [...applicationForm.querySelectorAll(`[name="${name}"]`)];
+        fields.forEach((field) => {
+          if (field.type === "radio" || field.type === "checkbox") field.checked = field.value === value || value === "on";
+          else field.value = value;
+        });
+      });
+      currentFormStep = Math.min(3, Math.max(1, Number(draft.currentFormStep) || 1));
+    }
+
+    function updateDualTime() {
+      const input = applicationForm.elements.interviewTime;
+      const output = document.querySelector("[data-dual-time]");
+      const locale = document.documentElement.lang;
+      if (!input.value) {
+        const pendingTime = locale === "ja" ? "未選択" : "Chưa chọn";
+        output.textContent = getTranslation(locale, "application.step3.dualTime").replace("{{vn}}", pendingTime).replace("{{jp}}", pendingTime);
+        return;
+      }
+      const [datePart, timePart] = input.value.split("T");
+      const [year, month, day] = datePart.split("-").map(Number);
+      const [hour, minute] = timePart.split(":").map(Number);
+      const instant = new Date(Date.UTC(year, month - 1, day, hour - 7, minute));
+      const formatter = (timeZone) => new Intl.DateTimeFormat(locale === "ja" ? "ja-JP" : "vi-VN", {
+        dateStyle: "short", timeStyle: "short", hour12: false, timeZone
+      }).format(instant);
+      output.textContent = getTranslation(locale, "application.step3.dualTime")
+        .replace("{{vn}}", formatter("Asia/Ho_Chi_Minh"))
+        .replace("{{jp}}", formatter("Asia/Tokyo"));
+    }
+
+    function configureContactLinks(locale) {
+      const zaloId = marketConfig.messenger.primary.id;
+      const available = zaloId && !zaloId.includes("{{");
+      document.querySelectorAll("[data-zalo-link]").forEach((link) => {
+        if (available) {
+          link.href = `https://zalo.me/${encodeURIComponent(zaloId)}`;
+          link.removeAttribute("aria-disabled");
+          link.removeAttribute("title");
+        } else {
+          link.removeAttribute("href");
+          link.setAttribute("aria-disabled", "true");
+          link.title = getTranslation(locale, "application.zaloUnavailable");
+        }
+      });
+    }
+
+    function createReceiptCode() {
+      const now = new Date();
+      const date = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, "0")}${String(now.getDate()).padStart(2, "0")}`;
+      const suffix = String(Math.floor(Math.random() * 1000000)).padStart(6, "0");
+      return `AM-${date}-${suffix}`;
+    }
+
+    function completeApplication() {
+      const code = createReceiptCode();
+      document.querySelector("[data-receipt-code]").textContent = code;
+      document.querySelector("[data-application-success]").hidden = false;
+      applicationForm.hidden = true;
+      document.querySelector("[data-form-progress]").hidden = true;
+      try {
+        sessionStorage.removeItem("andmore-application-draft");
+      } catch (error) {}
+      refreshIcons();
+    }
+
+    function applyLocale(locale) {
+      const nextLocale = Object.hasOwn(i18n, locale) ? locale : "vi";
+      const scrollX = window.scrollX;
+      const scrollY = window.scrollY;
+
+      document.documentElement.lang = nextLocale;
+      document.title = getTranslation(nextLocale, "common.pageTitle");
+      document.querySelector('meta[name="description"]').content = getTranslation(nextLocale, "common.pageDescription");
+      document.getElementById("locale-fonts").href = fontUrls[nextLocale];
+
+      document.querySelectorAll("[data-i18n]").forEach((element) => {
+        const value = getTranslation(nextLocale, element.dataset.i18n);
+        if (typeof value === "string") {
+          setLocalizedText(element, value, nextLocale);
+        }
+      });
+
+      document.querySelectorAll("[data-i18n-aria-label]").forEach((element) => {
+        const value = getTranslation(nextLocale, element.dataset.i18nAriaLabel);
+        if (typeof value === "string") {
+          element.setAttribute("aria-label", value);
+        }
+      });
+
+      document.querySelectorAll("[data-i18n-placeholder]").forEach((element) => {
+        const value = getTranslation(nextLocale, element.dataset.i18nPlaceholder);
+        if (typeof value === "string") {
+          element.placeholder = value;
+        }
+      });
+
+      document.querySelectorAll("[data-locale-select]").forEach((select) => {
+        select.value = nextLocale;
+        select.setAttribute("aria-label", getTranslation(nextLocale, "common.languageLabel"));
+      });
+
+      renderApplicationChoices(nextLocale);
+      if (currentFormStep === 2) renderDocumentUploads(nextLocale);
+      document.querySelector("[data-form-progress]").setAttribute("aria-label", getTranslation(nextLocale, "application.progressLabel"));
+      document.querySelector("[data-sticky-actions]").setAttribute("aria-label", getTranslation(nextLocale, "sticky.label"));
+      document.querySelector('[data-i18n="application.step3.retention"]').textContent = getTranslation(nextLocale, "application.step3.retention")
+        .replace("{{n}}", marketConfig.privacy.retentionMonths)
+        .replace(nextLocale === "ja" ? "{{方法}}" : "{{cách thức}}", marketConfig.privacy.withdrawalMethod[nextLocale]);
+      updateDualTime();
+      configureContactLinks(nextLocale);
+
+      updateEligibilityDisplay();
+      updateSalaryCalculator();
+
+      const phone = marketConfig.contact.phone;
+      document.querySelectorAll("[data-call-link]").forEach((link) => {
+        const isConfirmed = phone && !phone.includes("{{");
+        link.toggleAttribute("href", isConfirmed);
+        if (isConfirmed) {
+          link.href = `tel:${phone}`;
+          link.removeAttribute("aria-disabled");
+          link.removeAttribute("title");
+        } else {
+          link.removeAttribute("href");
+          link.setAttribute("aria-disabled", "true");
+          link.title = getTranslation(nextLocale, "header.callUnavailable");
+        }
+      });
+
+      try {
+        sessionStorage.setItem("andmore-locale", nextLocale);
+      } catch (error) {}
+
+      refreshIcons();
+      requestAnimationFrame(() => {
+        const previousScrollBehavior = document.documentElement.style.scrollBehavior;
+        document.documentElement.style.scrollBehavior = "auto";
+        window.scrollTo(scrollX, scrollY);
+        requestAnimationFrame(() => {
+          document.documentElement.style.scrollBehavior = previousScrollBehavior;
+        });
+      });
+    }
+
+    document.querySelectorAll("[data-locale-select]").forEach((select) => {
+      select.addEventListener("change", (event) => applyLocale(event.target.value));
+    });
+
+    document.querySelector("[data-eligibility-form]").addEventListener("change", updateEligibilityDisplay);
+    document.querySelector("[data-salary-calculator]").addEventListener("input", updateSalaryCalculator);
+
+    applicationForm.addEventListener("focusout", (event) => {
+      if (event.target.name && event.target.required) validateApplicationField(event.target.name);
+    });
+    applicationForm.addEventListener("input", (event) => {
+      if (event.target.name === "interviewTime") updateDualTime();
+      saveApplicationDraft();
+    });
+    applicationForm.addEventListener("change", (event) => {
+      if (event.target.matches('input[type="file"]')) {
+        addFiles(event.target.dataset.documentKey, event.target.files);
+        event.target.value = "";
+      } else {
+        if (event.target.name) validateApplicationField(event.target.name);
+        if (event.target.name === "occupation" && currentFormStep === 2) renderDocumentUploads(document.documentElement.lang);
+        if (event.target.name === "interviewTime") updateDualTime();
+        saveApplicationDraft();
+      }
+    });
+    applicationForm.addEventListener("click", (event) => {
+      const nextButton = event.target.closest("[data-next-step]");
+      const previousButton = event.target.closest("[data-previous-step]");
+      const removeButton = event.target.closest("[data-remove-document]");
+      if (nextButton) {
+        const nextStep = Number(nextButton.dataset.nextStep);
+        if (currentFormStep !== 1 || validateStep(1)) showFormStep(nextStep);
+      }
+      if (previousButton) showFormStep(Number(previousButton.dataset.previousStep));
+      if (removeButton) {
+        const key = removeButton.dataset.removeDocument;
+        const index = Number(removeButton.dataset.removeIndex);
+        const entries = uploadedFiles.get(key) || [];
+        const [removed] = entries.splice(index, 1);
+        if (removed?.url) URL.revokeObjectURL(removed.url);
+        uploadedFiles.set(key, entries);
+        renderFileList(key, document.documentElement.lang);
+      }
+    });
+    applicationForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      if (isSubmitting || !validateStep(3)) return;
+      isSubmitting = true;
+      const button = document.querySelector("[data-submit-button]");
+      const label = document.querySelector("[data-submit-label]");
+      button.disabled = true;
+      label.textContent = getTranslation(document.documentElement.lang, "application.step3.submitting");
+      const loader = document.createElement("i");
+      loader.className = "ic loader-icon";
+      loader.dataset.lucide = "loader-circle";
+      loader.setAttribute("aria-hidden", "true");
+      button.prepend(loader);
+      refreshIcons();
+      setTimeout(completeApplication, 500);
+    });
+
+    document.querySelector("[data-copy-code]").addEventListener("click", async (event) => {
+      const code = document.querySelector("[data-receipt-code]").textContent;
+      try {
+        await navigator.clipboard.writeText(code);
+      } catch (error) {}
+      event.currentTarget.querySelector("span").textContent = getTranslation(document.documentElement.lang, "application.success.copied");
+    });
+
+    const heroImage = document.querySelector("[data-hero-image]");
+    const heroImageFrame = document.querySelector("[data-hero-image-frame]");
+
+    function updateHeroImageState() {
+      heroImageFrame.classList.toggle("is-missing", !heroImage.naturalWidth);
+    }
+
+    heroImage.addEventListener("load", updateHeroImageState);
+    heroImage.addEventListener("error", updateHeroImageState);
+    if (heroImage.complete) {
+      updateHeroImageState();
+    }
+
+    const mapImage = document.querySelector("[data-map-image]");
+    const mapFrame = document.querySelector("[data-map-frame]");
+
+    function updateMapImageState() {
+      mapFrame.classList.toggle("is-missing", !mapImage.naturalWidth);
+    }
+
+    mapImage.addEventListener("load", updateMapImageState);
+    mapImage.addEventListener("error", updateMapImageState);
+    if (mapImage.complete) {
+      updateMapImageState();
+    }
+
+    document.querySelectorAll(".faq-item").forEach((item) => {
+      item.addEventListener("toggle", refreshIcons);
+    });
+
+    const menuDisclosure = document.querySelector(".menu-disclosure");
+    document.addEventListener("click", (event) => {
+      if (menuDisclosure.open && !menuDisclosure.contains(event.target)) menuDisclosure.open = false;
+      if (event.target.closest(".menu-dropdown a")) menuDisclosure.open = false;
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && menuDisclosure.open) {
+        menuDisclosure.open = false;
+        menuDisclosure.querySelector("summary").focus();
+      }
+    });
+
+    const header = document.querySelector(".site-header");
+    function updateHeaderShadow() {
+      header.classList.toggle("is-scrolled", window.scrollY > 40);
+    }
+
+    window.addEventListener("scroll", updateHeaderShadow, { passive: true });
+
+    const stickyActions = document.querySelector("[data-sticky-actions]");
+    const heroSection = document.querySelector('[data-section="S1"]');
+    function updateStickyActions() {
+      stickyActions.classList.toggle("is-visible", heroSection.getBoundingClientRect().bottom < 0);
+    }
+    window.addEventListener("scroll", updateStickyActions, { passive: true });
+
+    let initialLocale = "vi";
+    try {
+      initialLocale = sessionStorage.getItem("andmore-locale") || "vi";
+    } catch (error) {
+      initialLocale = "vi";
+    }
+
+    applyLocale(initialLocale);
+    restoreApplicationDraft();
+    showFormStep(currentFormStep);
+    updateHeaderShadow();
+    updateStickyActions();
+    setupSalaryReveal();
+  </script>
+</body>
+</html>
